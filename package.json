@@ -1,0 +1,30 @@
+{
+  "name": "web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^9.5.0",
+    "@tanstack/react-router": "^1.166.7",
+    "motion": "^12.36.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "three": "^0.183.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.1",
+    "@tanstack/router-plugin": "^1.166.7",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.183.1",
+    "@vitejs/plugin-react": "^6.0.1",
+    "tailwindcss": "^4.2.1",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.0"
+  }
+}
