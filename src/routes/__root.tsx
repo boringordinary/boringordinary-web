@@ -1,6 +1,6 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { useTextScramble } from "@boringordinary/text-scramble";
+import { useTextScramble } from "../hooks/use-text-scramble";
 
 function useScrambleTitle() {
   const title = useTextScramble("Boring+Ordinary", {
