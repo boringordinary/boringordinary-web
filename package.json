@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
+    "typecheck": "tsc -b",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -14,6 +15,7 @@
     "motion": "^12.36.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "@boringordinary/text-scramble": "file:../boringordinary/packages/text-scramble",
     "three": "^0.183.2"
   },
   "devDependencies": {
