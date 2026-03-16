@@ -1,6 +1,10 @@
-import { useRef, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { useRef, useMemo, useEffect } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
+import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 
 /*
  * Penrose triangle geometry.
@@ -177,10 +181,49 @@ function PenroseTriangle() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  Bloom postprocessing                                               */
+/* ------------------------------------------------------------------ */
+
+function PostProcessing() {
+  const { gl, scene, camera, size } = useThree();
+  const composerRef = useRef<EffectComposer | null>(null);
+
+  useEffect(() => {
+    const composer = new EffectComposer(gl);
+    composer.addPass(new RenderPass(scene, camera));
+    composer.addPass(
+      new UnrealBloomPass(
+        new THREE.Vector2(size.width, size.height),
+        1.2, // strength
+        0.4, // radius
+        0.2, // threshold
+      ),
+    );
+    composer.addPass(new OutputPass());
+    composerRef.current = composer;
+
+    return () => {
+      composer.dispose();
+    };
+  }, [gl, scene, camera]);
+
+  useEffect(() => {
+    composerRef.current?.setSize(size.width, size.height);
+  }, [size]);
+
+  useFrame(() => {
+    composerRef.current?.render();
+  }, 1);
+
+  return null;
+}
+
 function Scene() {
   return (
     <group>
       <PenroseTriangle />
+      <PostProcessing />
     </group>
   );
 }
@@ -196,8 +239,11 @@ export function ImpossibleScene() {
           near: -100,
           far: 100,
         }}
-        gl={{ antialias: true, alpha: false }}
+        gl={{ antialias: true, alpha: false, toneMapping: THREE.NoToneMapping }}
         style={{ background: "#06060a" }}
+        onCreated={({ gl }) => {
+          gl.setClearColor("#06060a");
+        }}
       >
         <Scene />
       </Canvas>
