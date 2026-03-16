@@ -182,6 +182,112 @@ function PenroseTriangle() {
 }
 
 /* ------------------------------------------------------------------ */
+/*  ParticleFlow — glowing spheres flowing along the Penrose path      */
+/* ------------------------------------------------------------------ */
+
+const PARTICLE_COUNT = 70;
+const CYCLE_DURATION = 15; // seconds for full loop
+
+function ParticleFlow() {
+  const meshRef = useRef<THREE.InstancedMesh>(null);
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+
+  /*
+   * Build a closed CatmullRom path tracing the top surface of all beams.
+   *
+   * Camera at [5,5,5] → view direction [1,1,1]/√3
+   * Screen-up ≈ [-1,2,-1]/√6 (component of world-up [0,1,0] ⊥ view dir)
+   *
+   * Top-surface offsets per arm axis (project screen-up ⊥ arm axis):
+   *   Arm along X → offset BEAM_SIZE/2 * [0, 2/√5, -1/√5]
+   *   Arm along Y → offset BEAM_SIZE/2 * [-1/√2, 0, -1/√2]
+   *   Arm along Z → offset BEAM_SIZE/2 * [-1/√5, 2/√5, 0]
+   */
+  const curve = useMemo(() => {
+    const hs = BEAM_SIZE / 2;
+    const L = BEAM_LENGTH;
+
+    // Top-surface offset vectors (normalised screen-up projected ⊥ each axis)
+    const topX = new THREE.Vector3(0, (2 / Math.sqrt(5)) * hs, (-1 / Math.sqrt(5)) * hs);
+    const topY = new THREE.Vector3((-1 / Math.sqrt(2)) * hs, 0, (-1 / Math.sqrt(2)) * hs);
+    const topZ = new THREE.Vector3((-1 / Math.sqrt(5)) * hs, (2 / Math.sqrt(5)) * hs, 0);
+
+    // Beam 0: offset (-S, 0, S), arm1 along +X, arm2 along +Y
+    const b0a1Start = new THREE.Vector3(-S, 0, S).add(topX);
+    const b0elbow = new THREE.Vector3(-S + L, 0, S).add(topX.clone().add(topY).multiplyScalar(0.5));
+    const b0a2End = new THREE.Vector3(-S + L, L, S).add(topY);
+
+    // Beam 1: offset (S, -S, 0), arm1 along +Y, arm2 along +Z
+    const b1a1Start = new THREE.Vector3(S, -S, 0).add(topY);
+    const b1elbow = new THREE.Vector3(S, -S + L, 0).add(topY.clone().add(topZ).multiplyScalar(0.5));
+    const b1a2End = new THREE.Vector3(S, -S + L, L).add(topZ);
+
+    // Beam 2: offset (0, S, -S), arm1 along +Z, arm2 along +X
+    const b2a1Start = new THREE.Vector3(0, S, -S).add(topZ);
+    const b2elbow = new THREE.Vector3(0, S, -S + L).add(topZ.clone().add(topX).multiplyScalar(0.5));
+    const b2a2End = new THREE.Vector3(L, S, -S + L).add(topX);
+
+    // The path: arm1→elbow→arm2 for each beam, then jump to next beam
+    // CatmullRom with closed=true smoothly wraps the last→first connection
+    return new THREE.CatmullRomCurve3(
+      [
+        b0a1Start,
+        b0elbow,
+        b0a2End,
+        b1a1Start,
+        b1elbow,
+        b1a2End,
+        b2a1Start,
+        b2elbow,
+        b2a2End,
+      ],
+      true, // closed
+      "catmullrom",
+      0.5,
+    );
+  }, []);
+
+  const particleMat = useMemo(
+    () =>
+      new THREE.MeshBasicMaterial({
+        color: "#aaeeff",
+        transparent: true,
+        opacity: 0.9,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      }),
+    [],
+  );
+
+  const sphereGeo = useMemo(() => new THREE.SphereGeometry(0.06, 8, 6), []);
+
+  useFrame(({ clock }) => {
+    const mesh = meshRef.current;
+    if (!mesh) return;
+
+    const elapsed = clock.getElapsedTime();
+    const baseProgress = (elapsed / CYCLE_DURATION) % 1;
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const t = (baseProgress + i / PARTICLE_COUNT) % 1;
+      const point = curve.getPointAt(t);
+      dummy.position.copy(point);
+      dummy.updateMatrix();
+      mesh.setMatrixAt(i, dummy.matrix);
+    }
+    mesh.instanceMatrix.needsUpdate = true;
+  });
+
+  return (
+    <instancedMesh
+      ref={meshRef}
+      args={[sphereGeo, particleMat, PARTICLE_COUNT]}
+      frustumCulled={false}
+    />
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  Bloom postprocessing                                               */
 /* ------------------------------------------------------------------ */
 
@@ -223,6 +329,7 @@ function Scene() {
   return (
     <group>
       <PenroseTriangle />
+      <ParticleFlow />
       <PostProcessing />
     </group>
   );
