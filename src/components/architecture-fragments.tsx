@@ -1,6 +1,7 @@
 import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import type { MouseRef } from "./impossible-scene";
 
 /* ------------------------------------------------------------------ */
 /*  Fresnel material factory (self-contained, lower opacity variant)   */
@@ -195,7 +196,8 @@ function ImpossibleColumn({ material }: { material: THREE.ShaderMaterial }) {
 /*  Fragment — wraps a shape with position, scale, and rotation        */
 /* ------------------------------------------------------------------ */
 
-function Fragment({ config }: { config: FragmentConfig }) {
+function Fragment({ config, mouseRef }: { config: FragmentConfig; mouseRef: MouseRef }) {
+  const outerRef = useRef<THREE.Group>(null);
   const groupRef = useRef<THREE.Group>(null);
   const matRef = useRef<THREE.ShaderMaterial>(null);
 
@@ -203,6 +205,7 @@ function Fragment({ config }: { config: FragmentConfig }) {
   matRef.current = material;
 
   const speed = config.rotationSpeed;
+  const basePos = config.position;
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
@@ -218,6 +221,17 @@ function Fragment({ config }: { config: FragmentConfig }) {
       groupRef.current.rotation.y = t * speed[1];
       groupRef.current.rotation.z = t * speed[2];
     }
+
+    // Parallax: shift position based on mouse, scaled by fragment size
+    if (outerRef.current) {
+      const parallaxX = mouseRef.current.x * config.scale * 0.5;
+      const parallaxY = mouseRef.current.y * config.scale * 0.5;
+      outerRef.current.position.set(
+        basePos[0] + parallaxX,
+        basePos[1] + parallaxY,
+        basePos[2],
+      );
+    }
   });
 
   const ShapeComponent =
@@ -228,7 +242,7 @@ function Fragment({ config }: { config: FragmentConfig }) {
         : ImpossibleColumn;
 
   return (
-    <group position={config.position} scale={config.scale}>
+    <group ref={outerRef} position={config.position} scale={config.scale}>
       <group ref={groupRef}>
         <ShapeComponent material={material} />
       </group>
@@ -240,11 +254,11 @@ function Fragment({ config }: { config: FragmentConfig }) {
 /*  ArchitectureFragments — renders all floating fragments             */
 /* ------------------------------------------------------------------ */
 
-export function ArchitectureFragments() {
+export function ArchitectureFragments({ mouseRef }: { mouseRef: MouseRef }) {
   return (
     <group>
       {FRAGMENTS.map((config, i) => (
-        <Fragment key={i} config={config} />
+        <Fragment key={i} config={config} mouseRef={mouseRef} />
       ))}
     </group>
   );

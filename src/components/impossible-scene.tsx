@@ -7,6 +7,8 @@ import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 
+export type MouseRef = React.RefObject<{ x: number; y: number }>;
+
 /*
  * Penrose triangle geometry.
  *
@@ -129,7 +131,7 @@ function GlowBeam({ position, args, material }: GlowBeamProps) {
 /*  PenroseTriangle                                                    */
 /* ------------------------------------------------------------------ */
 
-function PenroseTriangle() {
+function PenroseTriangle({ mouseRef }: { mouseRef: MouseRef }) {
   const matRef = useRef<THREE.ShaderMaterial>(null);
 
   const fresnelMat = useMemo(() => createFresnelMaterial(), []);
@@ -138,6 +140,13 @@ function PenroseTriangle() {
   useFrame(({ clock }) => {
     if (matRef.current) {
       matRef.current.uniforms.uTime.value = clock.getElapsedTime();
+
+      // Glow intensification: boost rim opacity when mouse is near center
+      const mx = mouseRef.current.x;
+      const my = mouseRef.current.y;
+      const dist = Math.sqrt(mx * mx + my * my); // 0 at center, ~1.4 at corners
+      const boost = Math.max(0, 1 - dist) * 0.3; // 0–0.3 boost near center
+      matRef.current.uniforms.uRimOpacity.value = 0.6 + boost;
     }
   });
 
@@ -189,7 +198,7 @@ function PenroseTriangle() {
 const PARTICLE_COUNT = 70;
 const CYCLE_DURATION = 15; // seconds for full loop
 
-function ParticleFlow() {
+function ParticleFlow({ mouseRef }: { mouseRef: MouseRef }) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
@@ -262,16 +271,56 @@ function ParticleFlow() {
 
   const sphereGeo = useMemo(() => new THREE.SphereGeometry(0.06, 8, 6), []);
 
-  useFrame(({ clock }) => {
+  // Reusable vectors for mouse ray unprojection (allocated once)
+  const mouseWorld = useMemo(() => ({
+    near: new THREE.Vector3(),
+    far: new THREE.Vector3(),
+    dir: new THREE.Vector3(),
+    toParticle: new THREE.Vector3(),
+    pull: new THREE.Vector3(),
+  }), []);
+
+  useFrame(({ clock, camera }) => {
     const mesh = meshRef.current;
     if (!mesh) return;
 
     const elapsed = clock.getElapsedTime();
     const baseProgress = (elapsed / CYCLE_DURATION) % 1;
 
+    // Unproject mouse NDC into a world-space ray
+    const mx = mouseRef.current.x;
+    const my = mouseRef.current.y;
+    mouseWorld.near.set(mx, my, -1).unproject(camera);
+    mouseWorld.far.set(mx, my, 1).unproject(camera);
+    mouseWorld.dir.subVectors(mouseWorld.far, mouseWorld.near).normalize();
+
+    const PULL_RADIUS = 2.0;
+    const PULL_STRENGTH = 0.3;
+
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       const t = (baseProgress + i / PARTICLE_COUNT) % 1;
       const point = curve.getPointAt(t);
+
+      // Compute closest point on mouse ray to this particle
+      mouseWorld.toParticle.subVectors(point, mouseWorld.near);
+      const proj = mouseWorld.toParticle.dot(mouseWorld.dir);
+      // Closest point on ray: near + dir * proj
+      // Vector from closest point to particle:
+      mouseWorld.pull
+        .copy(mouseWorld.dir)
+        .multiplyScalar(proj)
+        .add(mouseWorld.near)
+        .sub(point); // pull vector: from particle toward ray
+
+      const dist = mouseWorld.pull.length();
+      if (dist < PULL_RADIUS && dist > 0.001) {
+        // Quadratic falloff: strength * (1 - dist/radius)^2
+        const falloff = (1 - dist / PULL_RADIUS);
+        const strength = PULL_STRENGTH * falloff * falloff;
+        mouseWorld.pull.normalize().multiplyScalar(strength);
+        point.add(mouseWorld.pull);
+      }
+
       dummy.position.copy(point);
       dummy.updateMatrix();
       mesh.setMatrixAt(i, dummy.matrix);
@@ -326,18 +375,37 @@ function PostProcessing() {
   return null;
 }
 
-function Scene() {
+function Scene({ mouseRef }: { mouseRef: MouseRef }) {
   return (
     <group>
-      <PenroseTriangle />
-      <ParticleFlow />
-      <ArchitectureFragments />
+      <PenroseTriangle mouseRef={mouseRef} />
+      <ParticleFlow mouseRef={mouseRef} />
+      <ArchitectureFragments mouseRef={mouseRef} />
       <PostProcessing />
     </group>
   );
 }
 
 export function ImpossibleScene() {
+  const mouseRef = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    function onMove(e: MouseEvent) {
+      mouseRef.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseRef.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    }
+    function onLeave() {
+      mouseRef.current.x = 0;
+      mouseRef.current.y = 0;
+    }
+    window.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseleave", onLeave);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseleave", onLeave);
+    };
+  }, []);
+
   return (
     <div className="h-dvh w-full overflow-hidden bg-[#06060a] relative">
       <Canvas
@@ -354,7 +422,7 @@ export function ImpossibleScene() {
           gl.setClearColor("#06060a");
         }}
       >
-        <Scene />
+        <Scene mouseRef={mouseRef} />
       </Canvas>
       <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
         <span
