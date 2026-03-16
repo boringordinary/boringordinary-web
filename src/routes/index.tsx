@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ConcentricIllusion } from "../components/concentric-illusion";
+import { ImpossibleScene } from "../components/impossible-scene";
 
 export const Route = createFileRoute("/")({
-  component: () => <ConcentricIllusion />,
+  component: () => <ImpossibleScene />,
 });
