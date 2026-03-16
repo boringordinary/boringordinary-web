@@ -1,6 +1,7 @@
 import { useRef, useMemo, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
+import { ArchitectureFragments } from "./architecture-fragments";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
@@ -330,6 +331,7 @@ function Scene() {
     <group>
       <PenroseTriangle />
       <ParticleFlow />
+      <ArchitectureFragments />
       <PostProcessing />
     </group>
   );
