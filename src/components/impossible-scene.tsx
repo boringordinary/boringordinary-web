@@ -112,7 +112,7 @@ function GlowBeam({ position, args, material }: GlowBeamProps) {
       new THREE.LineBasicMaterial({
         color: "#88ccff",
         transparent: true,
-        opacity: 0.7,
+        opacity: 0.5,
       }),
     [],
   );
@@ -150,41 +150,56 @@ function PenroseTriangle({ mouseRef }: { mouseRef: MouseRef }) {
     }
   });
 
+  /*
+   * Each arm is extended by BEAM_SIZE at the elbow end so the two arms
+   * of each beam overlap at the corner, eliminating the visible seam.
+   * The extension is along the arm's own axis toward the elbow.
+   *
+   * Arm 1 (horizontal): extended length = BEAM_LENGTH + BEAM_SIZE/2
+   *   centre shifts +BEAM_SIZE/4 toward the elbow end
+   * Arm 2 (vertical): extended length = BEAM_LENGTH + BEAM_SIZE/2
+   *   centre shifts -BEAM_SIZE/4 toward the elbow end
+   */
+  const EXT = BEAM_SIZE / 2;
+  const ARM = BEAM_LENGTH + EXT;
+  const SHIFT1 = EXT / 2; // shift arm1 centre toward elbow
+  const SHIFT2 = -EXT / 2; // shift arm2 centre toward elbow (lower)
+
   return (
     <group>
       {/* Beam 0 — arm 1 along +X, arm 2 along +Y, offset (-S, 0, S) */}
       <GlowBeam
-        position={[-S + H, 0, S]}
-        args={[BEAM_LENGTH, BEAM_SIZE, BEAM_SIZE]}
+        position={[-S + H + SHIFT1, 0, S]}
+        args={[ARM, BEAM_SIZE, BEAM_SIZE]}
         material={fresnelMat}
       />
       <GlowBeam
-        position={[-S + BEAM_LENGTH, H, S]}
-        args={[BEAM_SIZE, BEAM_LENGTH, BEAM_SIZE]}
+        position={[-S + BEAM_LENGTH, H + SHIFT2, S]}
+        args={[BEAM_SIZE, ARM, BEAM_SIZE]}
         material={fresnelMat}
       />
 
       {/* Beam 1 — arm 1 along +Y, arm 2 along +Z, offset (S, -S, 0) */}
       <GlowBeam
-        position={[S, -S + H, 0]}
-        args={[BEAM_SIZE, BEAM_LENGTH, BEAM_SIZE]}
+        position={[S, -S + H + SHIFT1, 0]}
+        args={[BEAM_SIZE, ARM, BEAM_SIZE]}
         material={fresnelMat}
       />
       <GlowBeam
-        position={[S, -S + BEAM_LENGTH, H]}
-        args={[BEAM_SIZE, BEAM_SIZE, BEAM_LENGTH]}
+        position={[S, -S + BEAM_LENGTH, H + SHIFT2]}
+        args={[BEAM_SIZE, BEAM_SIZE, ARM]}
         material={fresnelMat}
       />
 
       {/* Beam 2 — arm 1 along +Z, arm 2 along +X, offset (0, S, -S) */}
       <GlowBeam
-        position={[0, S, -S + H]}
-        args={[BEAM_SIZE, BEAM_SIZE, BEAM_LENGTH]}
+        position={[0, S, -S + H + SHIFT1]}
+        args={[BEAM_SIZE, BEAM_SIZE, ARM]}
         material={fresnelMat}
       />
       <GlowBeam
-        position={[H, S, -S + BEAM_LENGTH]}
-        args={[BEAM_LENGTH, BEAM_SIZE, BEAM_SIZE]}
+        position={[H + SHIFT2, S, -S + BEAM_LENGTH]}
+        args={[ARM, BEAM_SIZE, BEAM_SIZE]}
         material={fresnelMat}
       />
     </group>
@@ -348,12 +363,13 @@ function PostProcessing() {
   useEffect(() => {
     const composer = new EffectComposer(gl);
     composer.addPass(new RenderPass(scene, camera));
+    const dpr = gl.getPixelRatio();
     composer.addPass(
       new UnrealBloomPass(
-        new THREE.Vector2(size.width, size.height),
-        1.2, // strength
+        new THREE.Vector2(size.width * dpr, size.height * dpr),
+        0.6, // strength (reduced — was 1.2, washing out center/logo)
         0.4, // radius
-        0.2, // threshold
+        0.35, // threshold (raised — only brightest elements bloom)
       ),
     );
     composer.addPass(new OutputPass());
@@ -498,14 +514,23 @@ export function ImpossibleScene() {
       >
         <Scene mouseRef={mouseRef} />
       </Canvas>
-      <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+      {/* Radial vignette — darkens center slightly so the logo stays legible */}
+      <div
+        className="absolute inset-0 z-10 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 40% 30% at 50% 50%, rgba(6,6,10,0.55) 0%, rgba(6,6,10,0) 100%)",
+        }}
+      />
+      <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
         <span
           className="text-7xl tracking-tight text-white select-none"
           style={{
             fontFamily: "Inter, sans-serif",
             fontWeight: 400,
-            WebkitTextStroke: "1.5px black",
+            WebkitTextStroke: "2px rgba(6,6,10,0.9)",
             paintOrder: "stroke fill",
+            textShadow: "0 0 20px rgba(6,6,10,0.8), 0 0 40px rgba(6,6,10,0.5)",
           }}
         >
           B+O

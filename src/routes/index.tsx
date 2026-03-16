@@ -1,6 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ImpossibleScene } from "../components/impossible-scene";
+import { Logo } from "../components/logo";
 
 export const Route = createFileRoute("/")({
-  component: () => <ImpossibleScene />,
+  component: () => (
+    <div className="h-dvh w-full bg-white flex items-center justify-center">
+      <Logo className="w-40 h-40" />
+    </div>
+  ),
 });
