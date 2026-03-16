@@ -1,4 +1,4 @@
-import { useRef, useMemo, useEffect } from "react";
+import { useRef, useMemo, useEffect, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { ArchitectureFragments } from "./architecture-fragments";
@@ -375,9 +375,72 @@ function PostProcessing() {
   return null;
 }
 
+/* ------------------------------------------------------------------ */
+/*  BackgroundGrid — faint dot grid for depth                          */
+/* ------------------------------------------------------------------ */
+
+function BackgroundGrid() {
+  const pointsRef = useRef<THREE.Points>(null);
+
+  // Create a grid of dots on a plane behind the scene
+  const geometry = useMemo(() => {
+    const positions: number[] = [];
+    const gridSize = 20; // -10 to +10
+    const spacing = 0.8;
+    const count = Math.floor(gridSize / spacing);
+
+    for (let i = -count; i <= count; i++) {
+      for (let j = -count; j <= count; j++) {
+        // Place dots on a plane perpendicular to camera direction [1,1,1]
+        // Use two vectors perpendicular to [1,1,1]:
+        // v1 = [1, -1, 0] / sqrt(2)
+        // v2 = [1, 1, -2] / sqrt(6)
+        const u = i * spacing;
+        const v = j * spacing;
+        const x = u / Math.sqrt(2) + v / Math.sqrt(6);
+        const y = -u / Math.sqrt(2) + v / Math.sqrt(6);
+        const z = -2 * v / Math.sqrt(6);
+        // Offset behind the scene along [1,1,1]
+        const offset = -8;
+        positions.push(
+          x + offset / Math.sqrt(3),
+          y + offset / Math.sqrt(3),
+          z + offset / Math.sqrt(3),
+        );
+      }
+    }
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+    return geo;
+  }, []);
+
+  const material = useMemo(
+    () =>
+      new THREE.PointsMaterial({
+        color: "#88ccff",
+        size: 0.03,
+        transparent: true,
+        opacity: 0.15,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      }),
+    [],
+  );
+
+  // Subtle opacity pulse
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime();
+    material.opacity = 0.1 + 0.05 * Math.sin(t * 0.5);
+  });
+
+  return <points ref={pointsRef} geometry={geometry} material={material} />;
+}
+
 function Scene({ mouseRef }: { mouseRef: MouseRef }) {
   return (
     <group>
+      <BackgroundGrid />
       <PenroseTriangle mouseRef={mouseRef} />
       <ParticleFlow mouseRef={mouseRef} />
       <ArchitectureFragments mouseRef={mouseRef} />
@@ -388,8 +451,18 @@ function Scene({ mouseRef }: { mouseRef: MouseRef }) {
 
 export function ImpossibleScene() {
   const mouseRef = useRef({ x: 0, y: 0 });
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion) return;
     function onMove(e: MouseEvent) {
       mouseRef.current.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouseRef.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
@@ -404,11 +477,12 @@ export function ImpossibleScene() {
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseleave", onLeave);
     };
-  }, []);
+  }, [reducedMotion]);
 
   return (
     <div className="h-dvh w-full overflow-hidden bg-[#06060a] relative">
       <Canvas
+        frameloop={reducedMotion ? "demand" : "always"}
         orthographic
         camera={{
           zoom: 80,
