@@ -1,11 +1,20 @@
 import { useRef, useMemo, useEffect } from "react";
-import { useScroll, useMotionValueEvent } from "motion/react";
+import {
+  motion,
+  useScroll,
+  useMotionValueEvent,
+  useTransform,
+  useReducedMotion,
+  type MotionValue,
+} from "motion/react";
 
 type SegmentDef = {
   text: string;
   type?: "normal" | "rainbow" | "quote" | "slide" | "underline";
 };
 type ParagraphDef = { segments: SegmentDef[]; quote?: boolean | "cite" };
+
+const WINDOW_SIZE = 0.12;
 
 const paragraphs: ParagraphDef[] = [
   {
@@ -53,11 +62,40 @@ const paragraphs: ParagraphDef[] = [
   },
 ];
 
+function SlideChar({
+  char,
+  progress,
+  start,
+  end,
+}: {
+  char: string;
+  progress: MotionValue<number>;
+  start: number;
+  end: number;
+}) {
+  const shouldReduce = useReducedMotion();
+  const opacity = useTransform(
+    progress,
+    [start, end],
+    shouldReduce ? [1, 1] : [0, 1],
+  );
+  const x = useTransform(
+    progress,
+    [start, end],
+    shouldReduce ? [0, 0] : [-6, 0],
+  );
+
+  return (
+    <motion.span style={{ opacity, x, display: "inline-block" }}>
+      {char === " " ? "\u00A0" : char}
+    </motion.span>
+  );
+}
+
 export function Manifesto() {
   const containerRef = useRef<HTMLDivElement>(null);
   const charRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const kingdomRef = useRef<HTMLSpanElement>(null);
-  const slideWordRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const underlinePathRef = useRef<SVGPathElement>(null);
   const underlinePathLen = useRef(0);
   const prefersReducedMotion = useRef(false);
@@ -67,13 +105,14 @@ export function Manifesto() {
     let refIndex = 0;
     const meta: { globalIndex: number; type: "normal" | "quote" }[] = [];
     let kingdomRange: { start: number; end: number } | null = null;
-    let slideRange: { start: number; end: number } | null = null;
     let underlineRange: { start: number; end: number } | null = null;
 
     type CharInfo = { char: string; refIdx: number };
+    type SlideCharInfo = { char: string; gi: number };
+    type SlideWord = { chars: SlideCharInfo[] };
     type SegInfo =
       | { type: "rainbow"; text: string }
-      | { type: "slide"; words: string[] }
+      | { type: "slide"; slideWords: SlideWord[] }
       | {
           type: "normal" | "quote" | "underline";
           chars: CharInfo[];
@@ -96,12 +135,16 @@ export function Manifesto() {
           };
           segs.push({ type: "rainbow", text });
         } else if (t === "slide") {
-          slideRange = {
-            start: startGlobal,
-            end: startGlobal + chars.length,
-          };
-          const words = text.split(" ").filter((w) => w.length > 0);
-          segs.push({ type: "slide", words });
+          const wordTexts = text.split(" ");
+          const slideWords: SlideWord[] = [];
+          let pos = startGlobal;
+          for (const w of wordTexts) {
+            slideWords.push({
+              chars: [...w].map((char, i) => ({ char, gi: pos + i })),
+            });
+            pos += w.length + 1; // +1 for space
+          }
+          segs.push({ type: "slide", slideWords });
         } else {
           if (t === "underline") {
             underlineRange = {
@@ -131,13 +174,11 @@ export function Manifesto() {
       totalChars: globalIndex,
       charMeta: meta,
       kingdomRange,
-      slideRange,
       underlineRange,
     };
   }, []);
 
-  const { totalChars, charMeta, kingdomRange, slideRange, underlineRange } =
-    layoutData;
+  const { totalChars, charMeta, kingdomRange, underlineRange } = layoutData;
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -172,12 +213,6 @@ export function Manifesto() {
         kingdomRef.current.style.filter = "none";
         kingdomRef.current.style.transform = "none";
       }
-      slideWordRefs.current.forEach((el) => {
-        if (el) {
-          el.style.transform = "none";
-          el.style.clipPath = "none";
-        }
-      });
       if (underlinePathRef.current) {
         underlinePathRef.current.style.strokeDashoffset = "0";
       }
@@ -197,7 +232,7 @@ export function Manifesto() {
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
     if (prefersReducedMotion.current) return;
 
-    const windowSize = 0.12;
+    const windowSize = WINDOW_SIZE;
     const refs = charRefs.current;
     const meta = charMeta;
 
@@ -272,48 +307,6 @@ export function Manifesto() {
         const scale = 0.92 + ease * 0.08;
         el.style.transform = `translateY(${((1 - ease) * 16).toFixed(1)}px) scale(${scale.toFixed(3)})`;
         el.dataset.s = "t";
-      }
-    }
-
-    // Animate slide words (staggered clip-path reveal + translateX)
-    if (slideRange) {
-      const words = slideWordRefs.current;
-      const wordCount = words.filter(Boolean).length;
-      if (wordCount > 0) {
-        const sStart = (slideRange.start / totalChars) * (1 - windowSize);
-        const sEnd =
-          ((slideRange.end - 1) / totalChars) * (1 - windowSize) + windowSize;
-        const totalDur = sEnd - sStart;
-        const wordDur = totalDur * 0.4;
-        const staggerSpan = totalDur - wordDur;
-        const stagger = staggerSpan / (wordCount - 1 || 1);
-
-        for (let i = 0; i < wordCount; i++) {
-          const el = words[i];
-          if (!el) continue;
-          const wStart = sStart + i * stagger;
-          const wEnd = wStart + wordDur;
-
-          if (progress <= wStart) {
-            if (el.dataset.s !== "h") {
-              el.style.clipPath = "inset(0 100% 0 0)";
-              el.style.transform = "translateX(-0.5em)";
-              el.dataset.s = "h";
-            }
-          } else if (progress >= wEnd) {
-            if (el.dataset.s !== "v") {
-              el.style.clipPath = "none";
-              el.style.transform = "none";
-              el.dataset.s = "v";
-            }
-          } else {
-            const t = (progress - wStart) / (wEnd - wStart);
-            const ease = 1 - (1 - t) * (1 - t) * (1 - t); // ease-out cubic
-            el.style.clipPath = `inset(0 ${((1 - ease) * 100).toFixed(1)}% 0 0)`;
-            el.style.transform = `translateX(${((1 - ease) * -0.5).toFixed(3)}em)`;
-            el.dataset.s = "t";
-          }
-        }
       }
     }
 
@@ -393,21 +386,23 @@ export function Manifesto() {
                   {seg.text}
                 </span>
               ) : seg.type === "slide" ? (
-                seg.words.map((word, wIndex) => (
-                  <span key={`${sIndex}-${wIndex}`}>
-                    <span
-                      ref={(el) => {
-                        slideWordRefs.current[wIndex] = el;
-                      }}
-                      style={{
-                        display: "inline-block",
-                        clipPath: "inset(0 100% 0 0)",
-                        transform: "translateX(-0.5em)",
-                      }}
-                    >
-                      {word}
+                seg.slideWords.map((word, wIdx) => (
+                  <span key={wIdx}>
+                    <span style={{ display: "inline-block" }}>
+                      {word.chars.map(({ char, gi }, i) => (
+                        <SlideChar
+                          key={i}
+                          char={char}
+                          progress={scrollYProgress}
+                          start={(gi / totalChars) * (1 - WINDOW_SIZE)}
+                          end={
+                            (gi / totalChars) * (1 - WINDOW_SIZE) +
+                            WINDOW_SIZE
+                          }
+                        />
+                      ))}
                     </span>
-                    {wIndex < seg.words.length - 1 ? " " : null}
+                    {wIdx < seg.slideWords.length - 1 ? " " : null}
                   </span>
                 ))
               ) : seg.type === "underline" ? (

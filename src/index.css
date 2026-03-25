@@ -17,6 +17,12 @@
   font-display: swap;
 }
 
+@media (max-width: 767px) {
+  .font-serif {
+    -webkit-text-stroke: 0.3px currentColor;
+  }
+}
+
 @theme {
   --font-serif: "Ordinary Serif", Georgia, serif;
 }
