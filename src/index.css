@@ -1,8 +1,17 @@
 @import "tailwindcss";
 
+@keyframes gradient-flow {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
 @font-face {
   font-family: "Ordinary Serif";
-  src: url("/fonts/ordinary-serif-regular.woff2") format("woff2");
+  src: url("./assets/fonts/ordinary-serif-regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
