@@ -35,15 +35,26 @@ const paragraphs: ParagraphDef[] = [
   },
   {
     segments: [
+      {
+        text: "If you\u2019re building a venture rooted in ",
+      },
+      { text: "freedom of expression, privacy, and innovation", type: "slide" },
+      {
+        text: " meant to serve the people\u2014we fund seed stage companies that align with these values.",
+      },
+    ],
+  },
+  {
+    segments: [
       { text: "We are misfits" },
       {
         text: "\u2014engineers, designers, artists, and communicators\u2014",
         type: "slide",
       },
       {
-        text: "the kind that don\u2019t fit neatly anywhere, so we built our own place. Our approach is boring in the ways it matters. Sustainable products in service of humanity, and ultimately, ",
+        text: "the kind that don\u2019t fit neatly anywhere, so we built our own place. Our approach is boring in the ways it matters. Sustainable products in service of ",
       },
-      { text: "God\u2019s Kingdom", type: "rainbow" },
+      { text: "you", type: "rainbow" },
       { text: "." },
     ],
   },
@@ -55,10 +66,6 @@ const paragraphs: ParagraphDef[] = [
       },
     ],
     quote: true,
-  },
-  {
-    segments: [{ text: "Matthew 10:16", type: "quote" }],
-    quote: "cite" as const,
   },
 ];
 
@@ -249,30 +256,23 @@ export function Manifesto() {
         if (el.dataset.s !== "h") {
           el.style.opacity = "0";
           if (type === "quote") {
-            el.style.filter = "none";
             el.style.transform = "translateY(14px)";
-          } else {
-            el.style.filter = "blur(8px)";
-            el.style.transform = "none";
           }
           el.dataset.s = "h";
         }
       } else if (progress >= charEnd) {
         if (el.dataset.s !== "v") {
           el.style.opacity = "1";
-          el.style.filter = "none";
-          el.style.transform = "none";
+          if (type === "quote") {
+            el.style.transform = "none";
+          }
           el.dataset.s = "v";
         }
       } else {
         const t = (progress - charStart) / (charEnd - charStart);
         el.style.opacity = String(t);
         if (type === "quote") {
-          el.style.filter = "none";
           el.style.transform = `translateY(${((1 - t) * 14).toFixed(1)}px)`;
-        } else {
-          el.style.filter = `blur(${((1 - t) * 8).toFixed(1)}px)`;
-          el.style.transform = "none";
         }
         el.dataset.s = "t";
       }
@@ -289,7 +289,7 @@ export function Manifesto() {
         if (el.dataset.s !== "h") {
           el.style.opacity = "0";
           el.style.filter = "blur(12px)";
-          el.style.transform = "translateY(16px) scale(0.92)";
+          el.style.transform = "scale(0.92)";
           el.dataset.s = "h";
         }
       } else if (progress >= kEnd) {
@@ -305,7 +305,7 @@ export function Manifesto() {
         el.style.opacity = String(ease);
         el.style.filter = `blur(${((1 - ease) * 12).toFixed(1)}px)`;
         const scale = 0.92 + ease * 0.08;
-        el.style.transform = `translateY(${((1 - ease) * 16).toFixed(1)}px) scale(${scale.toFixed(3)})`;
+        el.style.transform = `scale(${scale.toFixed(3)})`;
         el.dataset.s = "t";
       }
     }
@@ -380,7 +380,7 @@ export function Manifesto() {
                     display: "inline-block",
                     opacity: 0,
                     filter: "blur(12px)",
-                    transform: "translateY(16px) scale(0.92)",
+                    transform: "scale(0.92)",
                   }}
                 >
                   {seg.text}
@@ -406,14 +406,20 @@ export function Manifesto() {
                   </span>
                 ))
               ) : seg.type === "underline" ? (
-                <span key={sIndex} style={{ position: "relative" }}>
+                <span
+                  key={sIndex}
+                  style={{
+                    position: "relative",
+                    whiteSpace: "nowrap",
+                  }}
+                >
                   {seg.chars.map(({ char, refIdx }) => (
                     <span
                       key={refIdx}
                       ref={(el) => {
                         charRefs.current[refIdx] = el;
                       }}
-                      style={{ opacity: 0, filter: "blur(8px)" }}
+                      style={{ opacity: 0 }}
                     >
                       {char}
                     </span>
@@ -421,10 +427,10 @@ export function Manifesto() {
                   <svg
                     style={{
                       position: "absolute",
-                      bottom: "-0.1em",
+                      bottom: "-0.2em",
                       left: "-1%",
                       width: "102%",
-                      height: "0.25em",
+                      height: "0.35em",
                       overflow: "visible",
                     }}
                     viewBox="0 0 200 10"
@@ -435,7 +441,7 @@ export function Manifesto() {
                       ref={underlinePathRef}
                       d="M2 6 C15 2, 30 9, 48 5 C65 1, 78 8, 98 4 C118 1, 135 9, 155 5 C172 2, 188 7, 198 4"
                       stroke="currentColor"
-                      strokeWidth="2.5"
+                      strokeWidth="3"
                       strokeLinecap="round"
                       opacity="0.5"
                     />
@@ -464,7 +470,7 @@ export function Manifesto() {
                     ref={(el) => {
                       charRefs.current[refIdx] = el;
                     }}
-                    style={{ opacity: 0, filter: "blur(8px)" }}
+                    style={{ opacity: 0 }}
                   >
                     {char}
                   </span>

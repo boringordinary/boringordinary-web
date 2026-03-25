@@ -26,4 +26,5 @@
 
 @theme {
   --font-serif: "Ordinary Serif", Georgia, serif;
+  --font-sans: "Ordinary", Inter, system-ui, sans-serif;
 }
