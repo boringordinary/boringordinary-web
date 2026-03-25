@@ -31,7 +31,7 @@ export function Invest() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
           transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
         >
-          We invest early.
+          We invest differently.
         </motion.h2>
 
         {/* Body */}
@@ -43,7 +43,7 @@ export function Invest() {
         >
           We back seed-stage ventures with more than just capital. We bring
           generational expertise in building and scaling products that
-          actually ship. If what you're building challenges the status quo,
+          actually ship and save people. If what you're building challenges the status quo,
           we want to hear from you.
         </motion.p>
 
