@@ -2,9 +2,9 @@ import { useRef, useMemo, useEffect } from "react";
 import { useScroll, useMotionValueEvent } from "motion/react";
 
 const paragraphs: { text: string; quote?: boolean | "cite" }[] = [
-  { text: "Since 2019, we\u2019ve been building digital platforms that serve millions\u2014solving problems in ways that should be ordinary but for odd reasons isn\u2019t." },
-  { text: "We invest in game-changing medtech, consumer products, and the industries where it matters most\u2014the quiet struggles of beauty, body, and mind that shape everyday life." },
-  { text: "We are misfits\u2014engineers, designers, artists\u2014the kind that\u2019s hard to place, even among misfits. Our approach is boring in the ways it matters\u2014sustainable products in service of humanity, and ultimately, God\u2019s kingdom." },
+  { text: "Since 2019, we\u2019ve been building digital platforms that serve millions\u2014solving the problems the rest of the industry won\u2019t." },
+  { text: "We invest in game-changing medtech, consumer products, and the industries where it matters most\u2014beauty, body, and mind\u2014the problems that define everyday life." },
+  { text: "We are misfits\u2014engineers, designers, artists\u2014the kind that doesn\u2019t fit neatly anywhere, so we built our own place. Our approach is boring in the ways it matters\u2014sustainable products in service of humanity, and ultimately, God\u2019s kingdom." },
   { text: "\u201CBe wise as serpents and innocent as doves.\u201D", quote: true },
   { text: "Matthew 10:16", quote: "cite" as const },
 ];
