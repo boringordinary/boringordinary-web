@@ -52,7 +52,7 @@ const paragraphs: ParagraphDef[] = [
         type: "slide",
       },
       {
-        text: "the kind that don\u2019t fit neatly anywhere, so we built our own place. Our approach is boring in the ways it matters. Sustainable products in service of ",
+        text: "the kind that don\u2019t fit neatly anywhere, so we built our own place. Our approach is boring in the ways that matter. Sustainable products in service of ",
       },
       { text: "you", type: "rainbow" },
       { text: "." },

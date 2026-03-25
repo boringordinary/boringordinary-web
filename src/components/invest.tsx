@@ -43,8 +43,8 @@ export function Invest() {
         >
           We back seed-stage ventures with more than just capital. We bring
           generational expertise in building and scaling products that
-          actually ship and save people. If what you're building challenges the status quo,
-          we want to hear from you.
+          actually ship and define people's reason for existing. If this journey resonates with you,
+          we'd love to hear from you.
         </motion.p>
 
         {/* CTA */}
