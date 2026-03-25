@@ -38,7 +38,7 @@ const paragraphs: ParagraphDef[] = [
       {
         text: "If you\u2019re building a venture rooted in ",
       },
-      { text: "freedom of expression, privacy, and innovation", type: "slide" },
+      { text: "fostering freedom of expression, community, and innovation", type: "slide" },
       {
         text: " meant to serve the people\u2014we fund seed stage companies that align with these values.",
       },
