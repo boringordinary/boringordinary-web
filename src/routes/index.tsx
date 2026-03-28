@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Logo } from "../components/logo";
 import { Manifesto } from "../components/manifesto";
 import { Invest } from "../components/invest";
+import { Footer } from "../components/footer";
+
 export const Route = createFileRoute("/")({
   component: () => (
     <>
@@ -10,12 +12,7 @@ export const Route = createFileRoute("/")({
       </header>
       <Manifesto />
       <Invest />
-      <footer className="bg-white px-6 py-16 md:px-12 md:py-24">
-        <div className="mx-auto max-w-4xl flex flex-col gap-4 md:flex-row md:justify-between md:items-center font-sans text-sm font-bold text-black/50">
-          <a href="/privacy" className="hover:text-black transition-colors">Privacy Policy</a>
-          <a href="mailto:office@boringordinary.com" className="hover:text-black transition-colors">office@boringordinary.com</a>
-        </div>
-      </footer>
+      <Footer />
     </>
   ),
 });

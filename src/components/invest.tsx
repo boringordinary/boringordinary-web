@@ -43,8 +43,8 @@ export function Invest() {
         >
           We back seed-stage ventures with more than just capital. We bring
           generational expertise in building and scaling products that
-          actually ship and define people's reason for existing. If this journey resonates with you,
-          we'd love to hear from you.
+          actually ship and define people on an existential level. If this journey resonates with you,
+          let's build the future together.
         </motion.p>
 
         {/* CTA */}
@@ -55,12 +55,9 @@ export function Invest() {
         >
           <a
             href="mailto:projects@boringordinary.com"
-            className="inline-flex items-center gap-3 font-serif text-lg md:text-xl text-black border-b border-black/30 pb-1 hover:border-black transition-colors duration-300 group"
+            className="inline-flex items-center justify-center bg-black text-white font-serif text-lg md:text-xl px-8 py-4 hover:bg-black/85 transition-colors duration-300"
           >
             Get in touch
-            <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
-              &rarr;
-            </span>
           </a>
         </motion.div>
       </div>

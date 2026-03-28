@@ -38,9 +38,9 @@ const paragraphs: ParagraphDef[] = [
       {
         text: "If you\u2019re building a venture rooted in ",
       },
-      { text: "fostering freedom of expression, community, and innovation", type: "slide" },
+      { text: "fostering freedom, community, and innovation", type: "slide" },
       {
-        text: " meant to serve the people\u2014we fund seed stage companies that align with these values.",
+        text: " for the people\u2014we fund seed stage companies that align with these values.",
       },
     ],
   },
@@ -54,7 +54,7 @@ const paragraphs: ParagraphDef[] = [
       {
         text: "the kind that don\u2019t fit neatly anywhere, so we built our own place. Our approach is boring in the ways that matter. Sustainable products in service of ",
       },
-      { text: "you", type: "rainbow" },
+      { text: "your spirit", type: "rainbow" },
       { text: "." },
     ],
   },
@@ -370,7 +370,7 @@ export function Manifesto() {
                   ref={kingdomRef}
                   style={{
                     backgroundImage:
-                      "linear-gradient(90deg, #ef4444, #f97316, #eab308, #22c55e, #0ea5e9, #8b5cf6, #ec4899, #ef4444, #f97316, #eab308, #22c55e, #0ea5e9, #8b5cf6, #ec4899, #ef4444)",
+                      "linear-gradient(90deg, #ff6b6b, #ee5a9f, #c56cf0, #786ff0, #3d9dff, #45e3c8, #f5cd79, #ff9f43, #ff6b6b, #ee5a9f, #c56cf0, #786ff0, #3d9dff, #45e3c8, #f5cd79, #ff9f43, #ff6b6b)",
                     backgroundSize: "200% 100%",
                     WebkitBackgroundClip: "text",
                     backgroundClip: "text",

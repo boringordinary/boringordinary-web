@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Logo } from "../components/logo";
+import { Footer } from "../components/footer";
 
 export const Route = createFileRoute("/privacy")({
   component: () => (
@@ -14,8 +15,6 @@ export const Route = createFileRoute("/privacy")({
           <h1 className="font-serif text-4xl md:text-5xl text-black mb-16">
             Privacy Policy
           </h1>
-
-          <p className="mb-6 text-black/40 text-sm">Last updated: March 25, 2026</p>
 
           <Section title="Who we are">
             <p>
@@ -81,19 +80,7 @@ export const Route = createFileRoute("/privacy")({
           </Section>
         </article>
       </main>
-      <footer className="bg-white px-6 py-16 md:px-12 md:py-24">
-        <div className="mx-auto max-w-2xl flex flex-col gap-4 md:flex-row md:justify-between md:items-center text-sm text-black/50">
-          <Link to="/" className="hover:text-black transition-colors">
-            Home
-          </Link>
-          <a
-            href="mailto:privacy@boringordinary.com"
-            className="hover:text-black transition-colors"
-          >
-            privacy@boringordinary.com
-          </a>
-        </div>
-      </footer>
+      <Footer />
     </>
   ),
 });
