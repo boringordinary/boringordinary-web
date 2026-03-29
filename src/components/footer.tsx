@@ -7,12 +7,7 @@ export function Footer() {
         <Link to="/privacy" className="hover:text-black transition-colors">
           Privacy Policy
         </Link>
-        <a
-          href="mailto:office@boringordinary.com"
-          className="hover:text-black transition-colors"
-        >
-          office@boringordinary.com
-        </a>
+        <span>&copy; {new Date().getFullYear()} Boring+Ordinary</span>
       </div>
     </footer>
   );

@@ -10,7 +10,8 @@ export function Invest() {
   return (
     <section
       ref={sectionRef}
-      className="bg-white px-6 pt-16 pb-32 md:px-12 md:pt-24 md:pb-48"
+      id="invest"
+      className="bg-white px-6 pt-16 pb-32 md:px-12 md:pt-24 md:pb-48 scroll-mt-8"
     >
       <div className="mx-auto max-w-4xl">
         {/* Thin rule separator */}
@@ -41,7 +42,7 @@ export function Invest() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
-          We back seed-stage ventures with more than just capital. We bring
+          We back seed-stage projects with more than just capital. We bring
           generational expertise in building and scaling products that
           actually ship and define people on an existential level. If this journey resonates with you,
           let's build the future together.
@@ -55,7 +56,7 @@ export function Invest() {
         >
           <a
             href="mailto:projects@boringordinary.com"
-            className="inline-flex items-center justify-center bg-black text-white font-serif text-lg md:text-xl px-8 py-4 hover:bg-black/85 transition-colors duration-300"
+            className="inline-flex items-center justify-center bg-black text-white font-sans text-lg md:text-xl px-8 py-4 hover:bg-black/85 transition-colors duration-300"
           >
             Get in touch
           </a>

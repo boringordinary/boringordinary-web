@@ -1,4 +1,4 @@
-import { useRef, useMemo, useEffect } from "react";
+import { useRef, useMemo, useEffect, useCallback } from "react";
 import {
   motion,
   useScroll,
@@ -36,11 +36,11 @@ const paragraphs: ParagraphDef[] = [
   {
     segments: [
       {
-        text: "If you\u2019re building a venture rooted in ",
+        text: "If you\u2019re building a project rooted in ",
       },
       { text: "fostering freedom, community, and innovation", type: "slide" },
       {
-        text: " for the people\u2014we fund seed stage companies that align with these values.",
+        text: " for the people\u2014we fund seed stage projects that align with these values.",
       },
     ],
   },
@@ -186,6 +186,47 @@ export function Manifesto() {
   }, []);
 
   const { totalChars, charMeta, kingdomRange, underlineRange } = layoutData;
+
+  const mousePos = useRef({ x: 50, y: 50 });
+  const animFrame = useRef<number>(0);
+  const currentPos = useRef({ x: 50, y: 50 });
+
+  const updateGradientPosition = useCallback(() => {
+    const el = kingdomRef.current;
+    if (!el || prefersReducedMotion.current) return;
+
+    currentPos.current.x += (mousePos.current.x - currentPos.current.x) * 0.08;
+    currentPos.current.y += (mousePos.current.y - currentPos.current.y) * 0.08;
+
+    el.style.backgroundPosition = `${currentPos.current.x.toFixed(1)}% ${currentPos.current.y.toFixed(1)}%`;
+
+    animFrame.current = requestAnimationFrame(updateGradientPosition);
+  }, []);
+
+  useEffect(() => {
+    const hasPointer = window.matchMedia("(hover: hover)").matches;
+
+    if (hasPointer) {
+      const onMouseMove = (e: MouseEvent) => {
+        mousePos.current.x = (e.clientX / window.innerWidth) * 100;
+        mousePos.current.y = (e.clientY / window.innerHeight) * 100;
+      };
+
+      window.addEventListener("mousemove", onMouseMove);
+      animFrame.current = requestAnimationFrame(updateGradientPosition);
+
+      return () => {
+        window.removeEventListener("mousemove", onMouseMove);
+        cancelAnimationFrame(animFrame.current);
+      };
+    } else {
+      // Touch/no-hover devices: use CSS animation fallback
+      if (kingdomRef.current) {
+        kingdomRef.current.style.animation =
+          "gradient-flow 12s ease-in-out infinite";
+      }
+    }
+  }, [updateGradientPosition]);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -349,7 +390,8 @@ export function Manifesto() {
   return (
     <section
       ref={containerRef}
-      className="bg-white px-6 pb-32 md:px-12 md:pb-48"
+      id="about"
+      className="bg-white px-6 pt-8 pb-32 md:px-12 md:pt-12 md:pb-48 scroll-mt-8"
     >
       <div className="mx-auto max-w-4xl">
         {layoutData.paras.map((para, pIndex) => (
@@ -370,12 +412,12 @@ export function Manifesto() {
                   ref={kingdomRef}
                   style={{
                     backgroundImage:
-                      "linear-gradient(90deg, #ff6b6b, #ee5a9f, #c56cf0, #786ff0, #3d9dff, #45e3c8, #f5cd79, #ff9f43, #ff6b6b, #ee5a9f, #c56cf0, #786ff0, #3d9dff, #45e3c8, #f5cd79, #ff9f43, #ff6b6b)",
-                    backgroundSize: "200% 100%",
+                      "radial-gradient(ellipse at center, #ff6b6b, #ee5a9f, #c56cf0, #786ff0, #3d9dff, #45e3c8, #f5cd79, #ff9f43, #ff6b6b)",
+                    backgroundSize: "300% 300%",
                     WebkitBackgroundClip: "text",
                     backgroundClip: "text",
                     WebkitTextFillColor: "transparent",
-                    animation: "gradient-flow 4s linear infinite",
+                    backgroundPosition: "50% 50%",
                     whiteSpace: "nowrap",
                     display: "inline-block",
                     opacity: 0,

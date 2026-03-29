@@ -1,12 +1,27 @@
 @import "tailwindcss";
 
 @keyframes gradient-flow {
-  from {
-    background-position: 0% 50%;
+  0%, 100% {
+    background-position: 50% 50%;
   }
-  to {
-    background-position: 100% 50%;
+  20% {
+    background-position: 0% 80%;
   }
+  40% {
+    background-position: 80% 10%;
+  }
+  60% {
+    background-position: 100% 90%;
+  }
+  80% {
+    background-position: 20% 20%;
+  }
+}
+
+@font-face {
+  font-family: "Ordinary";
+  src: local("Inter");
+  font-display: swap;
 }
 
 @font-face {
@@ -17,14 +32,8 @@
   font-display: swap;
 }
 
-@media (max-width: 767px) {
-  .font-serif {
-    -webkit-text-stroke: 0.5px currentColor;
-    text-shadow: 0 0 0.3px currentColor;
-  }
-}
-
 @theme {
   --font-serif: "Ordinary Serif", Georgia, serif;
   --font-sans: "Ordinary", Inter, system-ui, sans-serif;
+  --color-warm-bg: #ede8e1;
 }
