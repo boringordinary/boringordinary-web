@@ -36,9 +36,9 @@ function Navbar() {
     <>
       <header
         ref={masthead}
-        className="w-full bg-white flex items-center justify-center pt-12 pb-12 md:pt-16 md:pb-16"
+        className="w-full bg-white flex items-center justify-center pt-16 pb-16 md:pt-24 md:pb-20"
       >
-        <Logo className="w-16 h-16 md:w-20 md:h-20" />
+        <Logo className="w-14 h-14 md:w-18 md:h-18" />
       </header>
 
       <div
@@ -64,7 +64,7 @@ function Navbar() {
                     onUpdate: (v) => window.scrollTo(0, v),
                   });
                 }}
-                className="font-sans text-sm md:text-base font-normal text-black/40 hover:text-black transition-colors"
+                className="font-sans text-xs md:text-sm tracking-wide font-normal text-black/35 hover:text-black/70 transition-colors duration-300"
               >
                 {label}
               </a>

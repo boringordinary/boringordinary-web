@@ -391,7 +391,7 @@ export function Manifesto() {
     <section
       ref={containerRef}
       id="about"
-      className="bg-white px-6 pt-8 pb-32 md:px-12 md:pt-12 md:pb-48 scroll-mt-8"
+      className="bg-white px-6 pt-4 pb-36 md:px-12 md:pt-8 md:pb-52 scroll-mt-8"
     >
       <div className="mx-auto max-w-4xl">
         {layoutData.paras.map((para, pIndex) => (
@@ -401,8 +401,8 @@ export function Manifesto() {
               para.quote === "cite"
                 ? "font-serif text-sm md:text-base tracking-wide uppercase text-black/30 mt-4 pl-6 md:pl-8 border-l-2 border-black/10"
                 : para.quote
-                  ? "font-serif text-xl leading-relaxed md:text-2xl md:leading-relaxed lg:text-3xl lg:leading-relaxed text-black/40 italic mt-8 md:mt-16 border-l-2 border-black/10 pl-6 md:pl-8"
-                  : "font-serif text-3xl leading-snug md:text-5xl md:leading-snug lg:text-6xl lg:leading-tight text-black mb-16 md:mb-24 last:mb-0"
+                  ? "font-serif text-xl leading-relaxed md:text-2xl md:leading-relaxed lg:text-3xl lg:leading-relaxed text-black/35 italic mt-10 md:mt-20 border-l-2 border-black/8 pl-6 md:pl-8"
+                  : "font-serif text-2xl leading-snug md:text-4xl md:leading-snug lg:text-6xl lg:leading-tight text-black mb-14 md:mb-28 last:mb-0"
             }
           >
             {para.segs.map((seg, sIndex) =>
