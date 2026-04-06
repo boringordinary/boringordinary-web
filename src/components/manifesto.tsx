@@ -20,7 +20,7 @@ const paragraphs: ParagraphDef[] = [
   {
     segments: [
       {
-        text: "Since 2019, we\u2019ve been running digital platforms that serve millions, solving problems in ways that should be ordinary but the rest of the industry won\u2019t touch.",
+        text: "Since 2019, we\u2019ve been running digital platforms that serve millions of users, solving problems in ways that should be ordinary but the rest of the industry won\u2019t touch.",
       },
     ],
   },
@@ -40,15 +40,15 @@ const paragraphs: ParagraphDef[] = [
       },
       { text: "fostering freedom, community, and innovation", type: "slide" },
       {
-        text: " for the people\u2014we fund seed stage projects that align with these values.",
+        text: " for people\u2014we fund seed stage projects that align with these values.",
       },
     ],
   },
   {
     segments: [
-      { text: "We are misfits" },
+      { text: "We are misfits, " },
       {
-        text: "\u2014engineers, designers, artists, and communicators\u2014",
+        text: "engineers, designers, artists, and communicators\u2014",
         type: "slide",
       },
       {

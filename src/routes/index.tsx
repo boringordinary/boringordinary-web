@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { animate } from "motion/react";
 import { Logo } from "../components/logo";
 import { Manifesto } from "../components/manifesto";
 import { Invest } from "../components/invest";
@@ -51,6 +52,18 @@ function Navbar() {
               <a
                 key={label}
                 href={href}
+                onClick={(e) => {
+                  if (!href.startsWith("#")) return;
+                  e.preventDefault();
+                  const el = document.querySelector(href);
+                  if (!el) return;
+                  const top = el.getBoundingClientRect().top + window.scrollY;
+                  animate(window.scrollY, top, {
+                    duration: 0.8,
+                    ease: [0.22, 1, 0.36, 1],
+                    onUpdate: (v) => window.scrollTo(0, v),
+                  });
+                }}
                 className="font-sans text-sm md:text-base font-normal text-black/40 hover:text-black transition-colors"
               >
                 {label}
