@@ -27,7 +27,7 @@ const paragraphs: ParagraphDef[] = [
   {
     segments: [
       {
-        text: "We invest in game-changing medtech, regtech, consumer products, and the industries where it matters most: beauty, body, and mind. The problems that ",
+        text: "We invest in game-changing medtech, regtech, gaming, and consumer products, and the industries where it matters most: beauty, body, and mind. The problems that ",
       },
       { text: "define everyday life", type: "underline" },
       { text: "." },
