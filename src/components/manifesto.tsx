@@ -54,8 +54,7 @@ const paragraphs: ParagraphDef[] = [
       {
         text: "the kind that don\u2019t fit neatly anywhere, so we built our own place. Our approach is boring in the ways that matter. Sustainable products in service of ",
       },
-      { text: "your spirit", type: "rainbow" },
-      { text: "." },
+      { text: "your spirit.", type: "rainbow" },
     ],
   },
   {
