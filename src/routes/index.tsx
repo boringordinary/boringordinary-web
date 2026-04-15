@@ -45,8 +45,8 @@ function Navbar() {
         className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-black/5 px-6 md:px-12 transition-transform duration-300"
         style={{ transform: visible ? "translateY(0)" : "translateY(-100%)" }}
       >
-        <div className="mx-auto max-w-4xl flex items-center justify-between h-10 md:h-12">
-          <Logo className="h-full w-auto" />
+        <div className="mx-auto max-w-4xl flex items-center justify-between h-14 md:h-16">
+          <Logo className="h-full w-auto py-2.5 md:py-3" />
           <nav className="flex gap-6 md:gap-8">
             {NAV_LINKS.map(({ label, href }) => (
               <a
@@ -64,7 +64,7 @@ function Navbar() {
                     onUpdate: (v) => window.scrollTo(0, v),
                   });
                 }}
-                className="font-sans text-xs md:text-sm tracking-wide font-normal text-black/35 hover:text-black/70 transition-colors duration-300"
+                className="font-sans text-sm md:text-base tracking-wide font-normal text-black/45 hover:text-black/70 transition-colors duration-300"
               >
                 {label}
               </a>

@@ -391,7 +391,7 @@ export function Manifesto() {
     <section
       ref={containerRef}
       id="about"
-      className="bg-white px-6 pt-4 pb-36 md:px-12 md:pt-8 md:pb-52 scroll-mt-8"
+      className="bg-white px-6 pt-4 pb-24 md:px-12 md:pt-8 md:pb-36 scroll-mt-8"
     >
       <div className="mx-auto max-w-4xl">
         {layoutData.paras.map((para, pIndex) => (
@@ -402,7 +402,7 @@ export function Manifesto() {
                 ? "font-serif text-sm md:text-base tracking-wide uppercase text-black/30 mt-4 pl-6 md:pl-8 border-l-2 border-black/10"
                 : para.quote
                   ? "font-serif text-xl leading-relaxed md:text-2xl md:leading-relaxed lg:text-3xl lg:leading-relaxed text-black/35 italic mt-10 md:mt-20 border-l-2 border-black/8 pl-6 md:pl-8"
-                  : "font-serif text-2xl leading-snug md:text-4xl md:leading-snug lg:text-6xl lg:leading-tight text-black mb-14 md:mb-28 last:mb-0"
+                  : "font-serif text-3xl leading-snug md:text-4xl md:leading-snug lg:text-6xl lg:leading-tight text-black mb-14 md:mb-28 last:mb-0"
             }
           >
             {para.segs.map((seg, sIndex) =>
@@ -412,7 +412,7 @@ export function Manifesto() {
                   ref={kingdomRef}
                   style={{
                     backgroundImage:
-                      "radial-gradient(ellipse at center, #ff6b6b, #ee5a9f, #c56cf0, #786ff0, #3d9dff, #45e3c8, #f5cd79, #ff9f43, #ff6b6b)",
+                      "linear-gradient(135deg, #06b6d4, #22d3ee, #0ea5e9, #8b5cf6, #a78bfa, #06b6d4)",
                     backgroundSize: "300% 300%",
                     WebkitBackgroundClip: "text",
                     backgroundClip: "text",
