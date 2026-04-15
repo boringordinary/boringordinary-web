@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
 import { animate } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { Footer } from "../components/footer";
+import { Invest } from "../components/invest";
 import { Logo } from "../components/logo";
 import { Manifesto } from "../components/manifesto";
-import { Invest } from "../components/invest";
-import { Footer } from "../components/footer";
 
 const NAV_LINKS = [
   { label: "About", href: "#about" },
@@ -20,7 +20,8 @@ function Navbar() {
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
-      const mastheadBottom = masthead.current?.getBoundingClientRect().bottom ?? 0;
+      const mastheadBottom =
+        masthead.current?.getBoundingClientRect().bottom ?? 0;
       const pastMasthead = mastheadBottom < 0;
       const scrollingUp = y < lastScrollY.current;
 

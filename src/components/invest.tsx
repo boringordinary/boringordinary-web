@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef } from "react";
 import { motion, useInView } from "motion/react";
+import { useRef } from "react";
 
 export function Invest() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -33,9 +33,9 @@ export function Invest() {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
           We back seed-stage projects with more than just capital. We bring
-          generational expertise in building and scaling products that
-          actually ship and define people on an existential level. If this journey resonates with you,
-          let's build the future together.
+          generational expertise in building and scaling products that actually
+          ship and define people on an existential level. If this journey
+          resonates with you, let's build the future together.
         </motion.p>
 
         {/* CTA */}

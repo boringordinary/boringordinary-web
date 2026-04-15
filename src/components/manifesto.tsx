@@ -1,12 +1,12 @@
-import { useRef, useMemo, useEffect, useCallback } from "react";
 import {
-  motion,
-  useScroll,
-  useMotionValueEvent,
-  useTransform,
-  useReducedMotion,
   type MotionValue,
+  motion,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+  useTransform,
 } from "motion/react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 
 type SegmentDef = {
   text: string;
@@ -116,20 +116,26 @@ export function Manifesto() {
 
     type CharInfo = { char: string; refIdx: number };
     type SlideCharInfo = { char: string; gi: number };
-    type SlideWord = { chars: SlideCharInfo[] };
+    type SlideWord = { id: string; chars: SlideCharInfo[] };
     type SegInfo =
-      | { type: "rainbow"; text: string }
-      | { type: "slide"; slideWords: SlideWord[] }
+      | { id: string; type: "rainbow"; text: string }
+      | { id: string; type: "slide"; slideWords: SlideWord[] }
       | {
+          id: string;
           type: "normal" | "quote" | "underline";
           chars: CharInfo[];
         };
 
-    const paras: { quote?: boolean | "cite"; segs: SegInfo[] }[] = [];
+    const paras: { id: string; quote?: boolean | "cite"; segs: SegInfo[] }[] =
+      [];
 
-    for (const { segments, quote } of paragraphs) {
+    for (let pIdx = 0; pIdx < paragraphs.length; pIdx++) {
+      const { segments, quote } = paragraphs[pIdx];
+      const paraId = `p${pIdx}`;
       const segs: SegInfo[] = [];
-      for (const { text, type } of segments) {
+      for (let sIdx = 0; sIdx < segments.length; sIdx++) {
+        const { text, type } = segments[sIdx];
+        const segId = `${paraId}-s${sIdx}`;
         const t = type || "normal";
         const chars = [...text];
         const startGlobal = globalIndex;
@@ -140,18 +146,20 @@ export function Manifesto() {
             start: startGlobal,
             end: startGlobal + chars.length,
           };
-          segs.push({ type: "rainbow", text });
+          segs.push({ id: segId, type: "rainbow", text });
         } else if (t === "slide") {
           const wordTexts = text.split(" ");
           const slideWords: SlideWord[] = [];
           let pos = startGlobal;
-          for (const w of wordTexts) {
+          for (let wIdx = 0; wIdx < wordTexts.length; wIdx++) {
+            const w = wordTexts[wIdx];
             slideWords.push({
+              id: `${segId}-w${wIdx}`,
               chars: [...w].map((char, i) => ({ char, gi: pos + i })),
             });
             pos += w.length + 1; // +1 for space
           }
-          segs.push({ type: "slide", slideWords });
+          segs.push({ id: segId, type: "slide", slideWords });
         } else {
           if (t === "underline") {
             underlineRange = {
@@ -168,12 +176,13 @@ export function Manifesto() {
             return { char, refIdx: ri };
           });
           segs.push({
+            id: segId,
             type: t as "normal" | "quote" | "underline",
             chars: charInfos,
           });
         }
       }
-      paras.push({ quote, segs });
+      paras.push({ id: paraId, quote, segs });
     }
 
     return {
@@ -235,8 +244,7 @@ export function Manifesto() {
 
   useEffect(() => {
     if (underlinePathRef.current) {
-      underlinePathLen.current =
-        underlinePathRef.current.getTotalLength();
+      underlinePathLen.current = underlinePathRef.current.getTotalLength();
       underlinePathRef.current.style.strokeDasharray = String(
         underlinePathLen.current,
       );
@@ -394,9 +402,9 @@ export function Manifesto() {
       className="bg-white px-6 pt-4 pb-24 md:px-12 md:pt-8 md:pb-36 scroll-mt-8"
     >
       <div className="mx-auto max-w-4xl">
-        {layoutData.paras.map((para, pIndex) => (
+        {layoutData.paras.map((para) => (
           <p
-            key={pIndex}
+            key={para.id}
             className={
               para.quote === "cite"
                 ? "font-serif text-sm md:text-base tracking-wide uppercase text-black/30 mt-4 pl-6 md:pl-8 border-l-2 border-black/10"
@@ -405,10 +413,10 @@ export function Manifesto() {
                   : "font-serif text-3xl leading-snug md:text-4xl md:leading-snug lg:text-6xl lg:leading-tight text-black mb-14 md:mb-28 last:mb-0"
             }
           >
-            {para.segs.map((seg, sIndex) =>
+            {para.segs.map((seg) =>
               seg.type === "rainbow" ? (
                 <span
-                  key={sIndex}
+                  key={seg.id}
                   ref={kingdomRef}
                   style={{
                     backgroundImage:
@@ -429,17 +437,16 @@ export function Manifesto() {
                 </span>
               ) : seg.type === "slide" ? (
                 seg.slideWords.map((word, wIdx) => (
-                  <span key={wIdx}>
+                  <span key={word.id}>
                     <span style={{ display: "inline-block" }}>
-                      {word.chars.map(({ char, gi }, i) => (
+                      {word.chars.map(({ char, gi }) => (
                         <SlideChar
-                          key={i}
+                          key={gi}
                           char={char}
                           progress={scrollYProgress}
                           start={(gi / totalChars) * (1 - WINDOW_SIZE)}
                           end={
-                            (gi / totalChars) * (1 - WINDOW_SIZE) +
-                            WINDOW_SIZE
+                            (gi / totalChars) * (1 - WINDOW_SIZE) + WINDOW_SIZE
                           }
                         />
                       ))}
@@ -449,7 +456,7 @@ export function Manifesto() {
                 ))
               ) : seg.type === "underline" ? (
                 <span
-                  key={sIndex}
+                  key={seg.id}
                   style={{
                     position: "relative",
                     whiteSpace: "nowrap",
@@ -467,6 +474,7 @@ export function Manifesto() {
                     </span>
                   ))}
                   <svg
+                    aria-hidden="true"
                     style={{
                       position: "absolute",
                       bottom: "-0.2em",

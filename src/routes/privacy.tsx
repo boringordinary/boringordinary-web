@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Logo } from "../components/logo";
 import { Footer } from "../components/footer";
+import { Logo } from "../components/logo";
 
 export const Route = createFileRoute("/privacy")({
   component: () => (

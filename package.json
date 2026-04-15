@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "typecheck": "tsc -b",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "biome check",
+    "lint:fix": "biome check --write",
+    "format": "biome format --write"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.166.7",
@@ -17,6 +20,7 @@
     "resend": "^4.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.4.12",
     "@tailwindcss/vite": "^4.2.1",
     "@tanstack/router-plugin": "^1.166.7",
     "@types/react": "^19.2.14",

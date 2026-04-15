@@ -89,7 +89,10 @@ export function useTextScramble(
     lastFrameTimeRef.current = 0;
     const totalDuration = duration * 1000;
     const fullArray = Array.from(text);
-    const textLength = Math.min(fullArray.length, maxLength ?? fullArray.length);
+    const textLength = Math.min(
+      fullArray.length,
+      maxLength ?? fullArray.length,
+    );
     const textArray = fullArray.slice(0, textLength);
 
     charArrayRef.current = textArray;

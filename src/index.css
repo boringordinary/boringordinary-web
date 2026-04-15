@@ -18,7 +18,8 @@ html {
 }
 
 @keyframes gradient-flow {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 50% 50%;
   }
   20% {

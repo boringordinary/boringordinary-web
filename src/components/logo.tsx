@@ -4,8 +4,16 @@ export function Logo({ className }: { className?: string }) {
       className={className}
       viewBox="0 0 500 500"
       xmlns="http://www.w3.org/2000/svg"
-      style={{ fillRule: "evenodd", clipRule: "evenodd", strokeLinejoin: "round", strokeMiterlimit: 2 }}
+      role="img"
+      aria-labelledby="logo-title"
+      style={{
+        fillRule: "evenodd",
+        clipRule: "evenodd",
+        strokeLinejoin: "round",
+        strokeMiterlimit: 2,
+      }}
     >
+      <title id="logo-title">Boring+Ordinary</title>
       <rect x="0" y="0" width="500" height="500" />
       <g>
         <path
