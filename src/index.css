@@ -56,3 +56,11 @@ html {
   --color-warm-bg: #ede8e1;
   --color-secondary: #3ea5ce;
 }
+
+.font-serif {
+  font-feature-settings:
+    "kern" 1,
+    "liga" 1,
+    "clig" 1;
+  font-variant-numeric: oldstyle-nums;
+}
