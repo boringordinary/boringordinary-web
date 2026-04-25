@@ -77,7 +77,7 @@ function Navbar() {
     <>
       <header
         ref={masthead}
-        className="relative isolate flex min-h-[92svh] overflow-hidden bg-paper px-6 pt-7 pb-16 md:px-12 md:pt-10 md:pb-20"
+        className="relative isolate flex overflow-hidden bg-paper px-6 pt-7 pb-16 md:min-h-[92svh] md:px-12 md:pt-10 md:pb-20"
       >
         <div
           aria-hidden="true"
@@ -124,10 +124,6 @@ function Navbar() {
                 </button>
               </div>
             </div>
-
-            <aside className="relative md:pt-8">
-              <Logo className="h-28 w-28 md:h-40 md:w-40" />
-            </aside>
           </div>
         </div>
       </header>

@@ -15,6 +15,8 @@ type SegmentDef = {
 type ParagraphDef = { segments: SegmentDef[]; quote?: boolean | "cite" };
 
 const WINDOW_SIZE = 0.12;
+const GHOST_OPACITY = 0.22;
+const QUOTE_GHOST_OPACITY = 0.16;
 
 const paragraphs: ParagraphDef[] = [
   {
@@ -83,7 +85,7 @@ function SlideChar({
   const opacity = useTransform(
     progress,
     [start, end],
-    shouldReduce ? [1, 1] : [0, 1],
+    shouldReduce ? [1, 1] : [GHOST_OPACITY, 1],
   );
   const x = useTransform(
     progress,
@@ -302,7 +304,9 @@ export function Manifesto() {
 
       if (progress <= charStart) {
         if (el.dataset.s !== "h") {
-          el.style.opacity = "0";
+          el.style.opacity = String(
+            type === "quote" ? QUOTE_GHOST_OPACITY : GHOST_OPACITY,
+          );
           if (type === "quote") {
             el.style.transform = "translateY(14px)";
           }
@@ -318,7 +322,9 @@ export function Manifesto() {
         }
       } else {
         const t = (progress - charStart) / (charEnd - charStart);
-        el.style.opacity = String(t);
+        const hiddenOpacity =
+          type === "quote" ? QUOTE_GHOST_OPACITY : GHOST_OPACITY;
+        el.style.opacity = String(hiddenOpacity + t * (1 - hiddenOpacity));
         if (type === "quote") {
           el.style.transform = `translateY(${((1 - t) * 14).toFixed(1)}px)`;
         }
@@ -335,9 +341,9 @@ export function Manifesto() {
 
       if (progress <= kStart) {
         if (el.dataset.s !== "h") {
-          el.style.opacity = "0";
-          el.style.filter = "blur(12px)";
-          el.style.transform = "scale(0.92)";
+          el.style.opacity = String(GHOST_OPACITY);
+          el.style.filter = "blur(6px)";
+          el.style.transform = "scale(0.96)";
           el.dataset.s = "h";
         }
       } else if (progress >= kEnd) {
@@ -350,9 +356,9 @@ export function Manifesto() {
       } else {
         const t = (progress - kStart) / (kEnd - kStart);
         const ease = t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
-        el.style.opacity = String(ease);
-        el.style.filter = `blur(${((1 - ease) * 12).toFixed(1)}px)`;
-        const scale = 0.92 + ease * 0.08;
+        el.style.opacity = String(GHOST_OPACITY + ease * (1 - GHOST_OPACITY));
+        el.style.filter = `blur(${((1 - ease) * 6).toFixed(1)}px)`;
+        const scale = 0.96 + ease * 0.04;
         el.style.transform = `scale(${scale.toFixed(3)})`;
         el.dataset.s = "t";
       }
@@ -414,7 +420,7 @@ export function Manifesto() {
             <div className="mb-5 h-px w-10 bg-ink/25" />
             <p className="font-sans text-sm font-medium text-ink/45">About</p>
             <p className="mt-8 max-w-[8rem] font-serif text-xl leading-[1.25] text-ink/42 text-pretty">
-            Thesis
+              Thesis
             </p>
           </div>
         </div>
@@ -445,9 +451,9 @@ export function Manifesto() {
                       backgroundPosition: "50% 50%",
                       whiteSpace: "nowrap",
                       display: "inline-block",
-                      opacity: 0,
-                      filter: "blur(12px)",
-                      transform: "scale(0.92)",
+                      opacity: GHOST_OPACITY,
+                      filter: "blur(6px)",
+                      transform: "scale(0.96)",
                     }}
                   >
                     {seg.text}
@@ -486,7 +492,7 @@ export function Manifesto() {
                         ref={(el) => {
                           charRefs.current[refIdx] = el;
                         }}
-                        style={{ opacity: 0 }}
+                        style={{ opacity: GHOST_OPACITY }}
                       >
                         {char}
                       </span>
@@ -523,7 +529,7 @@ export function Manifesto() {
                         charRefs.current[refIdx] = el;
                       }}
                       style={{
-                        opacity: 0,
+                        opacity: QUOTE_GHOST_OPACITY,
                         transform: "translateY(14px)",
                         display: "inline-block",
                       }}
@@ -538,7 +544,7 @@ export function Manifesto() {
                       ref={(el) => {
                         charRefs.current[refIdx] = el;
                       }}
-                      style={{ opacity: 0 }}
+                      style={{ opacity: GHOST_OPACITY }}
                     >
                       {char}
                     </span>
