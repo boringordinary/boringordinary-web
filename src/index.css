@@ -3,6 +3,8 @@
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #f4efe7;
+  scroll-behavior: smooth;
 }
 
 @media (max-width: 767px) {
@@ -13,8 +15,8 @@ html {
 }
 
 ::selection {
-  background-color: #d4cfc8;
-  color: #1a1a1a;
+  background-color: #d6c7b4;
+  color: #171412;
 }
 
 @keyframes gradient-flow {
@@ -37,12 +39,6 @@ html {
 }
 
 @font-face {
-  font-family: "Ordinary";
-  src: local("Inter");
-  font-display: swap;
-}
-
-@font-face {
   font-family: "Ordinary Serif";
   src: url("./assets/fonts/ordinary-serif-regular.woff2") format("woff2");
   font-weight: 400;
@@ -52,9 +48,34 @@ html {
 
 @theme {
   --font-serif: "Ordinary Serif", Georgia, serif;
-  --font-sans: "Ordinary", Inter, system-ui, sans-serif;
-  --color-warm-bg: #ede8e1;
-  --color-secondary: #3ea5ce;
+  --font-sans: "Avenir Next", Avenir, "Helvetica Neue", Arial, sans-serif;
+  --color-paper: #f4efe7;
+  --color-paper-wash: #ebe3d8;
+  --color-ink: #171412;
+  --color-accent: #9f7043;
+  --color-warm-bg: #f4efe7;
+  --color-secondary: #3a6974;
+}
+
+body {
+  margin: 0;
+  background: #f4efe7;
+  color: #171412;
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  content: "";
+  background-image: radial-gradient(
+    rgba(23, 20, 18, 0.16) 0.5px,
+    transparent 0.5px
+  );
+  background-size: 4px 4px;
+  opacity: 0.055;
+  mix-blend-mode: multiply;
 }
 
 .font-serif {

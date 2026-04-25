@@ -27,7 +27,7 @@ const paragraphs: ParagraphDef[] = [
   {
     segments: [
       {
-        text: "We invest in game-changing medtech, regtech, gaming, and consumer products, and the industries where it matters most: beauty, body, and mind. The problems that ",
+        text: "We invest in medtech, regtech, gaming, and consumer products, and the industries where it matters most: beauty, body, and mind. The problems that ",
       },
       { text: "define everyday life", type: "underline" },
       { text: "." },
@@ -402,70 +402,128 @@ export function Manifesto() {
     <section
       ref={containerRef}
       id="about"
-      className="bg-white px-6 pt-4 pb-24 md:px-12 md:pt-8 md:pb-36 scroll-mt-8"
+      className="relative bg-paper px-6 pt-12 pb-28 scroll-mt-20 md:px-12 md:pt-16 md:pb-40"
     >
-      <div className="mx-auto max-w-4xl">
-        {layoutData.paras.map((para) => (
-          <p
-            key={para.id}
-            className={
-              para.quote === "cite"
-                ? "font-sans text-xs md:text-sm tracking-[0.22em] uppercase text-black/35 mt-6 md:mt-8 pl-6 md:pl-8 border-l-2 border-black/10"
-                : para.quote
-                  ? "font-serif text-xl leading-[1.7] md:text-2xl md:leading-[1.7] lg:text-3xl lg:leading-[1.6] tracking-[-0.005em] text-black/40 italic mt-16 md:mt-28 border-l-2 border-black/10 pl-6 md:pl-8 text-pretty"
-                  : "font-serif text-3xl leading-[1.15] md:text-4xl md:leading-[1.15] lg:text-6xl lg:leading-[1.05] tracking-[-0.015em] text-black mb-14 md:mb-28 last:mb-0 text-pretty"
-            }
-          >
-            {para.segs.map((seg) =>
-              seg.type === "rainbow" ? (
-                <span
-                  key={seg.id}
-                  ref={kingdomRef}
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(135deg, #06b6d4, #22d3ee, #0ea5e9, #8b5cf6, #a78bfa, #06b6d4)",
-                    backgroundSize: "300% 300%",
-                    WebkitBackgroundClip: "text",
-                    backgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundPosition: "50% 50%",
-                    whiteSpace: "nowrap",
-                    display: "inline-block",
-                    opacity: 0,
-                    filter: "blur(12px)",
-                    transform: "scale(0.92)",
-                  }}
-                >
-                  {seg.text}
-                </span>
-              ) : seg.type === "slide" ? (
-                seg.slideWords.map((word, wIdx) => (
-                  <span key={word.id}>
-                    <span style={{ display: "inline-block" }}>
-                      {word.chars.map(({ char, gi }) => (
-                        <SlideChar
-                          key={gi}
-                          char={char}
-                          progress={scrollYProgress}
-                          start={(gi / totalChars) * (1 - WINDOW_SIZE)}
-                          end={
-                            (gi / totalChars) * (1 - WINDOW_SIZE) + WINDOW_SIZE
-                          }
-                        />
-                      ))}
-                    </span>
-                    {wIdx < seg.slideWords.length - 1 ? " " : null}
+      <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[9rem_minmax(0,1fr)]">
+        <div className="hidden pt-2 md:block">
+          <div className="mb-5 h-px w-10 bg-ink/25" />
+          <p className="font-sans text-sm font-medium text-ink/45">About</p>
+        </div>
+        <div className="max-w-5xl">
+          {layoutData.paras.map((para) => (
+            <p
+              key={para.id}
+              className={
+                para.quote === "cite"
+                  ? "mt-6 border-l border-ink/15 pl-6 font-sans text-xs font-medium text-ink/40 md:mt-8 md:pl-8 md:text-sm"
+                  : para.quote
+                    ? "mt-16 border-l border-ink/15 pl-6 font-serif text-xl italic leading-[1.7] text-ink/50 text-pretty md:mt-28 md:pl-8 md:text-2xl md:leading-[1.7] lg:text-3xl lg:leading-[1.6]"
+                    : "mb-16 font-serif text-3xl leading-[1.16] text-ink text-pretty last:mb-0 md:mb-28 md:text-5xl md:leading-[1.08] lg:text-6xl lg:leading-[1.03]"
+              }
+            >
+              {para.segs.map((seg) =>
+                seg.type === "rainbow" ? (
+                  <span
+                    key={seg.id}
+                    ref={kingdomRef}
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(135deg, #254e47, #a97042, #3a6974, #6f4f2d, #254e47)",
+                      backgroundSize: "300% 300%",
+                      WebkitBackgroundClip: "text",
+                      backgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundPosition: "50% 50%",
+                      whiteSpace: "nowrap",
+                      display: "inline-block",
+                      opacity: 0,
+                      filter: "blur(12px)",
+                      transform: "scale(0.92)",
+                    }}
+                  >
+                    {seg.text}
                   </span>
-                ))
-              ) : seg.type === "underline" ? (
-                <span
-                  key={seg.id}
-                  style={{
-                    position: "relative",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {seg.chars.map(({ char, refIdx }) => (
+                ) : seg.type === "slide" ? (
+                  seg.slideWords.map((word, wIdx) => (
+                    <span key={word.id}>
+                      <span style={{ display: "inline-block" }}>
+                        {word.chars.map(({ char, gi }) => (
+                          <SlideChar
+                            key={gi}
+                            char={char}
+                            progress={scrollYProgress}
+                            start={(gi / totalChars) * (1 - WINDOW_SIZE)}
+                            end={
+                              (gi / totalChars) * (1 - WINDOW_SIZE) +
+                              WINDOW_SIZE
+                            }
+                          />
+                        ))}
+                      </span>
+                      {wIdx < seg.slideWords.length - 1 ? " " : null}
+                    </span>
+                  ))
+                ) : seg.type === "underline" ? (
+                  <span
+                    key={seg.id}
+                    style={{
+                      position: "relative",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {seg.chars.map(({ char, refIdx }) => (
+                      <span
+                        key={refIdx}
+                        ref={(el) => {
+                          charRefs.current[refIdx] = el;
+                        }}
+                        style={{ opacity: 0 }}
+                      >
+                        {char}
+                      </span>
+                    ))}
+                    <svg
+                      aria-hidden="true"
+                      style={{
+                        position: "absolute",
+                        bottom: "-0.2em",
+                        left: "-1%",
+                        width: "102%",
+                        height: "0.35em",
+                        overflow: "visible",
+                      }}
+                      viewBox="0 0 200 10"
+                      preserveAspectRatio="none"
+                      fill="none"
+                    >
+                      <path
+                        ref={underlinePathRef}
+                        d="M2 6 C15 2, 30 9, 48 5 C65 1, 78 8, 98 4 C118 1, 135 9, 155 5 C172 2, 188 7, 198 4"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        opacity="0.45"
+                      />
+                    </svg>
+                  </span>
+                ) : seg.type === "quote" ? (
+                  seg.chars.map(({ char, refIdx }) => (
+                    <span
+                      key={refIdx}
+                      ref={(el) => {
+                        charRefs.current[refIdx] = el;
+                      }}
+                      style={{
+                        opacity: 0,
+                        transform: "translateY(14px)",
+                        display: "inline-block",
+                      }}
+                    >
+                      {char === " " ? "\u00A0" : char}
+                    </span>
+                  ))
+                ) : (
+                  seg.chars.map(({ char, refIdx }) => (
                     <span
                       key={refIdx}
                       ref={(el) => {
@@ -475,63 +533,12 @@ export function Manifesto() {
                     >
                       {char}
                     </span>
-                  ))}
-                  <svg
-                    aria-hidden="true"
-                    style={{
-                      position: "absolute",
-                      bottom: "-0.2em",
-                      left: "-1%",
-                      width: "102%",
-                      height: "0.35em",
-                      overflow: "visible",
-                    }}
-                    viewBox="0 0 200 10"
-                    preserveAspectRatio="none"
-                    fill="none"
-                  >
-                    <path
-                      ref={underlinePathRef}
-                      d="M2 6 C15 2, 30 9, 48 5 C65 1, 78 8, 98 4 C118 1, 135 9, 155 5 C172 2, 188 7, 198 4"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      opacity="0.5"
-                    />
-                  </svg>
-                </span>
-              ) : seg.type === "quote" ? (
-                seg.chars.map(({ char, refIdx }) => (
-                  <span
-                    key={refIdx}
-                    ref={(el) => {
-                      charRefs.current[refIdx] = el;
-                    }}
-                    style={{
-                      opacity: 0,
-                      transform: "translateY(14px)",
-                      display: "inline-block",
-                    }}
-                  >
-                    {char === " " ? "\u00A0" : char}
-                  </span>
-                ))
-              ) : (
-                seg.chars.map(({ char, refIdx }) => (
-                  <span
-                    key={refIdx}
-                    ref={(el) => {
-                      charRefs.current[refIdx] = el;
-                    }}
-                    style={{ opacity: 0 }}
-                  >
-                    {char}
-                  </span>
-                ))
-              ),
-            )}
-          </p>
-        ))}
+                  ))
+                ),
+              )}
+            </p>
+          ))}
+        </div>
       </div>
     </section>
   );

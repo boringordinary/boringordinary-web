@@ -1,11 +1,15 @@
+import { useId } from "react";
+
 export function Logo({ className }: { className?: string }) {
+  const titleId = useId();
+
   return (
     <svg
       className={className}
       viewBox="0 0 500 500"
       xmlns="http://www.w3.org/2000/svg"
       role="img"
-      aria-labelledby="logo-title"
+      aria-labelledby={titleId}
       style={{
         fillRule: "evenodd",
         clipRule: "evenodd",
@@ -13,7 +17,7 @@ export function Logo({ className }: { className?: string }) {
         strokeMiterlimit: 2,
       }}
     >
-      <title id="logo-title">Boring+Ordinary</title>
+      <title id={titleId}>Boring+Ordinary</title>
       <rect x="0" y="0" width="500" height="500" />
       <g>
         <path
