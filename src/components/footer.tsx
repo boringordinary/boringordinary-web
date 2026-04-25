@@ -16,7 +16,7 @@ export function Footer() {
               </div>
             </div>
             <p className="mt-6 font-serif text-2xl leading-[1.2] text-ink/55 text-pretty md:text-3xl">
-              Built for work that should exist.
+            It's an ordinary operation.
             </p>
           </div>
 
