@@ -66,10 +66,6 @@ const paragraphs: ParagraphDef[] = [
     ],
     quote: true,
   },
-  {
-    segments: [{ text: "Matthew 10:16" }],
-    quote: "cite",
-  },
 ];
 
 function SlideChar({
@@ -402,14 +398,27 @@ export function Manifesto() {
     <section
       ref={containerRef}
       id="about"
-      className="relative bg-paper px-6 pt-12 pb-28 scroll-mt-20 md:px-12 md:pt-16 md:pb-40"
+      className="relative isolate overflow-hidden bg-paper px-6 pt-16 pb-28 scroll-mt-20 md:px-12 md:pt-24 md:pb-44"
     >
-      <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[9rem_minmax(0,1fr)]">
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-6 top-0 h-px bg-ink/10 md:inset-x-12"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute right-0 top-24 -z-10 h-[28rem] w-[28rem] translate-x-1/3 bg-[radial-gradient(circle,rgba(58,105,116,0.1),transparent_68%)]"
+      />
+      <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[12rem_minmax(0,1fr)]">
         <div className="hidden pt-2 md:block">
-          <div className="mb-5 h-px w-10 bg-ink/25" />
-          <p className="font-sans text-sm font-medium text-ink/45">About</p>
+          <div className="sticky top-24">
+            <div className="mb-5 h-px w-10 bg-ink/25" />
+            <p className="font-sans text-sm font-medium text-ink/45">About</p>
+            <p className="mt-8 max-w-[8rem] font-serif text-xl leading-[1.25] text-ink/42 text-pretty">
+            Thesis
+            </p>
+          </div>
         </div>
-        <div className="max-w-5xl">
+        <div className="max-w-5xl md:border-l md:border-ink/10 md:pl-10">
           {layoutData.paras.map((para) => (
             <p
               key={para.id}
@@ -418,7 +427,7 @@ export function Manifesto() {
                   ? "mt-6 border-l border-ink/15 pl-6 font-sans text-xs font-medium text-ink/40 md:mt-8 md:pl-8 md:text-sm"
                   : para.quote
                     ? "mt-16 border-l border-ink/15 pl-6 font-serif text-xl italic leading-[1.7] text-ink/50 text-pretty md:mt-28 md:pl-8 md:text-2xl md:leading-[1.7] lg:text-3xl lg:leading-[1.6]"
-                    : "mb-16 font-serif text-3xl leading-[1.16] text-ink text-pretty last:mb-0 md:mb-28 md:text-5xl md:leading-[1.08] lg:text-6xl lg:leading-[1.03]"
+                    : "mb-16 font-serif text-3xl leading-[1.16] text-ink/95 text-pretty last:mb-0 md:mb-28 md:text-5xl md:leading-[1.08] lg:text-6xl lg:leading-[1.03]"
               }
             >
               {para.segs.map((seg) =>
@@ -428,7 +437,7 @@ export function Manifesto() {
                     ref={kingdomRef}
                     style={{
                       backgroundImage:
-                        "linear-gradient(135deg, #254e47, #a97042, #3a6974, #6f4f2d, #254e47)",
+                        "linear-gradient(135deg, #06b6d4, #22d3ee, #0ea5e9, #8b5cf6, #a78bfa, #06b6d4)",
                       backgroundSize: "300% 300%",
                       WebkitBackgroundClip: "text",
                       backgroundClip: "text",

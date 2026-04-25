@@ -77,63 +77,72 @@ function Navbar() {
     <>
       <header
         ref={masthead}
-        className="relative isolate overflow-hidden bg-paper px-6 pt-7 pb-20 md:px-12 md:pt-10 md:pb-28"
+        className="relative isolate flex min-h-[92svh] overflow-hidden bg-paper px-6 pt-7 pb-16 md:px-12 md:pt-10 md:pb-20"
       >
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-[linear-gradient(115deg,rgba(159,112,67,0.14),transparent_34%),linear-gradient(0deg,rgba(255,255,255,0.34),transparent_58%)]"
+          className="absolute inset-0 -z-10 bg-[linear-gradient(0deg,rgba(255,255,255,0.34),transparent_62%)]"
         />
-        <div className="mx-auto max-w-6xl">
-          <div className="flex flex-col items-start gap-5 border-b border-ink/10 pb-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto flex w-full max-w-7xl flex-col">
+          <div className="flex flex-col items-start gap-5 pb-5 sm:flex-row sm:items-center sm:justify-between">
             <a
               href="/"
               aria-label="Boring+Ordinary home"
-              className="group flex items-center gap-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+              className="group inline-flex focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
             >
               <Logo className="h-10 w-10 transition-transform duration-300 group-hover:rotate-3 md:h-11 md:w-11" />
-              <span className="font-sans text-sm font-semibold text-ink">
-                Boring+Ordinary
-              </span>
             </a>
             <NavLinks />
           </div>
 
-          <div className="grid gap-12 pt-16 md:grid-cols-[minmax(0,1fr)_18rem] md:items-end md:pt-24 lg:grid-cols-[minmax(0,1fr)_22rem]">
-            <div>
-              <p className="mb-5 max-w-xl font-sans text-sm font-medium leading-6 text-ink/55 md:text-base">
-                Seed-stage capital and product craft for useful work that most
-                teams overlook.
-              </p>
-              <h1 className="max-w-5xl font-serif text-4xl leading-[1.02] text-ink text-balance sm:text-5xl sm:leading-[0.98] md:text-7xl md:leading-[0.96] lg:text-8xl">
+          <div className="grid flex-1 gap-12 pt-14 md:grid-cols-[minmax(0,1fr)_minmax(16rem,24rem)] md:items-center md:pt-20 lg:gap-20">
+            <div className="max-w-5xl">
+              <h1 className="max-w-5xl font-serif text-4xl leading-[1] text-ink text-balance sm:text-6xl sm:leading-[0.96] md:text-7xl md:leading-[0.94] lg:text-8xl">
                 We build and back the useful, unfashionable work.
               </h1>
+              <p className="mt-8 max-w-2xl font-serif text-xl leading-[1.55] text-ink/64 text-pretty md:text-2xl md:leading-[1.5]">
+                We operate companies, invest early, and bring product judgment
+                to the overlooked work that becomes infrastructure.
+              </p>
+
+              <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+                <a
+                  href="mailto:projects@boringordinary.com"
+                  className="inline-flex min-h-12 items-center justify-center bg-ink px-5 py-3 font-sans text-sm font-semibold text-paper transition duration-300 hover:-translate-y-0.5 hover:bg-ink/90 active:translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+                >
+                  Pitch a project
+                </a>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection("#about");
+                  }}
+                  className="inline-flex min-h-12 items-center justify-center border-b border-ink/25 px-1 py-3 font-sans text-sm font-semibold text-ink/70 transition duration-300 hover:border-ink hover:text-ink active:translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+                >
+                  Read the thesis
+                </button>
+              </div>
             </div>
 
-            <aside className="relative border-l border-ink/15 pl-6 md:pb-2">
-              <Logo className="mb-8 h-16 w-16 text-ink md:h-20 md:w-20" />
-              <p className="font-sans text-sm leading-6 text-ink/60">
-                Digital platforms, medtech, regtech, gaming, and consumer
-                products for beauty, body, and mind.
-              </p>
+            <aside className="relative md:pt-8">
+              <Logo className="h-28 w-28 md:h-40 md:w-40" />
             </aside>
           </div>
         </div>
       </header>
 
       <div
-        className="fixed top-0 left-0 right-0 z-50 border-b border-ink/10 bg-paper/90 px-6 backdrop-blur-md transition-transform duration-300 md:px-12"
+        className="fixed top-0 left-0 right-0 z-50 bg-paper/90 px-6 backdrop-blur-md transition-transform duration-300 md:px-12"
         style={{ transform: visible ? "translateY(0)" : "translateY(-100%)" }}
       >
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between md:h-16">
           <a
             href="/"
             aria-label="Boring+Ordinary home"
-            className="flex items-center gap-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+            className="inline-flex focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
           >
             <Logo className="h-8 w-8 md:h-9 md:w-9" />
-            <span className="hidden font-sans text-sm font-semibold text-ink sm:inline">
-              Boring+Ordinary
-            </span>
           </a>
           <NavLinks compact />
         </div>
