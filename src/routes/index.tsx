@@ -101,8 +101,8 @@ function Navbar() {
                 We build and back the useful, unfashionable work.
               </h1>
               <p className="mt-8 max-w-2xl font-serif text-xl leading-[1.55] text-ink/64 text-pretty md:text-2xl md:leading-[1.5]">
-                We operate companies, invest early, and bring product judgment
-                to the overlooked work that becomes infrastructure.
+                We operate companies, invest early, and stay close to the
+                work that becomes infrastructure.
               </p>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">

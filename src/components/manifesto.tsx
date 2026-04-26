@@ -29,7 +29,7 @@ const paragraphs: ParagraphDef[] = [
   {
     segments: [
       {
-        text: "We invest in medtech, regtech, gaming, and consumer products, and the industries where it matters most: beauty, body, and mind. The problems that ",
+        text: "We invest in medtech, regtech, gaming, and consumer products—and the industries closest to people: beauty, body, and mind. The problems that ",
       },
       { text: "define everyday life", type: "underline" },
       { text: "." },
@@ -38,11 +38,11 @@ const paragraphs: ParagraphDef[] = [
   {
     segments: [
       {
-        text: "If you\u2019re building a project rooted in ",
+        text: "If you\u2019re building something rooted in ",
       },
-      { text: "fostering freedom, community, and innovation", type: "slide" },
+      { text: "freedom, community, and craft", type: "slide" },
       {
-        text: " for people\u2014we fund seed stage projects that align with these values.",
+        text: "\u2014we fund those.",
       },
     ],
   },
@@ -54,7 +54,7 @@ const paragraphs: ParagraphDef[] = [
         type: "slide",
       },
       {
-        text: "the kind that don\u2019t fit neatly anywhere, so we built our own place. Our approach is boring in the ways that matter. Sustainable products in service of ",
+        text: "the kind that don\u2019t fit neatly anywhere, so we built our own place. Our approach is boring where it counts. Made to last, in service of ",
       },
       { text: "your spirit.", type: "rainbow" },
     ],

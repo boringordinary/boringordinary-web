@@ -68,7 +68,7 @@ export function Invest() {
           <p className="mb-12 max-w-2xl font-serif text-xl leading-[1.62] text-ink/70 text-pretty md:mb-14 md:text-2xl md:leading-[1.58]">
             We back seed-stage projects with capital, product judgment, and
             experience shipping platforms that people return to. We care about
-            teams working on problems with real daily weight.
+            funding people working on problems with real purpose.
           </p>
 
           <div className="grid gap-6 border-l border-ink/15 pl-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
