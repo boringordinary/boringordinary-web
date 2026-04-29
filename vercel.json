@@ -1,0 +1,32 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/script.js",
+      "destination": "https://a.boringordinary.com/api/script.js"
+    },
+    {
+      "source": "/api/replay.js",
+      "destination": "https://a.boringordinary.com/api/replay.js"
+    },
+    {
+      "source": "/api/metrics.js",
+      "destination": "https://a.boringordinary.com/api/metrics.js"
+    },
+    {
+      "source": "/api/track",
+      "destination": "https://a.boringordinary.com/api/track"
+    },
+    {
+      "source": "/api/identify",
+      "destination": "https://a.boringordinary.com/api/identify"
+    },
+    {
+      "source": "/api/session-replay/record/:siteId",
+      "destination": "https://a.boringordinary.com/api/session-replay/record/:siteId"
+    },
+    {
+      "source": "/api/site/tracking-config/:siteId",
+      "destination": "https://a.boringordinary.com/api/site/tracking-config/:siteId"
+    }
+  ]
+}

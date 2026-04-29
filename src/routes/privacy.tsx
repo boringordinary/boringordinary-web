@@ -41,10 +41,10 @@ export const Route = createFileRoute("/privacy")({
             </p>
           </Section>
 
-          <Section title="Cookies and tracking">
+          <Section title="Analytics and tracking">
             <p>
-              We use analytics cookies to understand how visitors use this site
-              — for example, which pages are visited and how users navigate
+              We use cookieless analytics to understand how visitors use this
+              site, including which pages are visited and how users navigate
               between them. This helps us improve the experience. We do not use
               advertising cookies.
             </p>
