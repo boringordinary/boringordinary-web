@@ -22,14 +22,14 @@ const paragraphs: ParagraphDef[] = [
   {
     segments: [
       {
-        text: "Since 2019, we\u2019ve been running digital platforms that serve millions of users, solving problems in ways that should be ordinary but the rest of the industry won\u2019t touch.",
+        text: "Since 2019, Boring+Ordinary has run digital platforms used by millions of people, focused on practical problems that should be easier than they are.",
       },
     ],
   },
   {
     segments: [
       {
-        text: "We invest in medtech, regtech, gaming, and consumer products—and the industries closest to people: beauty, body, and mind. The problems that ",
+        text: "The work spans medtech, regtech, gaming, consumer products, and the areas closest to daily life: beauty, body, and mind. The problems that ",
       },
       { text: "define everyday life", type: "underline" },
       { text: "." },
@@ -42,27 +42,27 @@ const paragraphs: ParagraphDef[] = [
       },
       { text: "freedom, community, and craft", type: "slide" },
       {
-        text: "\u2014we fund those.",
+        text: "\u2014that is the kind of work worth a conversation.",
       },
     ],
   },
   {
     segments: [
-      { text: "We are misfits, " },
+      { text: "Built by misfits, " },
       {
         text: "engineers, designers, artists, and communicators\u2014",
         type: "slide",
       },
       {
-        text: "the kind that don\u2019t fit neatly anywhere, so we built our own place. Our approach is boring where it counts. Made to last, in service of ",
+        text: "the kind of people who never fit neatly in one lane. Boring where it counts, durable by default, and in service of ",
       },
-      { text: "your spirit.", type: "rainbow" },
+      { text: "real life.", type: "rainbow" },
     ],
   },
   {
     segments: [
       {
-        text: "\u201CBe wise as serpents and innocent as doves.\u201D",
+        text: "\u201CMake it useful. Keep it human.\u201D",
         type: "quote",
       },
     ],

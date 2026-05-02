@@ -98,8 +98,8 @@ function Navbar() {
           <div className="grid flex-1 gap-10 pt-12 sm:pt-16 md:pt-18 lg:pt-20 xl:grid-cols-[minmax(0,1fr)_minmax(16rem,24rem)] xl:items-center xl:gap-20">
             <div className="max-w-6xl xl:max-w-5xl">
               <h1 className="max-w-6xl font-serif text-4xl leading-[1.02] text-ink text-balance sm:text-5xl sm:leading-[0.98] md:text-6xl md:leading-[0.96] lg:text-7xl lg:leading-[0.94]">
-                We operate companies, invest early, and stay close to the work
-                that becomes infrastructure.
+                Operating companies, backing early teams, and staying close to
+                useful work.
               </h1>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -117,7 +117,7 @@ function Navbar() {
                   }}
                   className="inline-flex min-h-12 items-center justify-center border-b border-ink/25 px-1 py-3 font-sans text-sm font-semibold text-ink/70 transition duration-300 hover:border-ink hover:text-ink active:translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
                 >
-                  Read the thesis
+                  About the work
                 </button>
               </div>
             </div>

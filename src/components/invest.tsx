@@ -38,7 +38,7 @@ export function Invest() {
               delay: 0.08,
             }}
           >
-            We invest differently.
+            Early capital for useful work.
           </motion.h2>
           <motion.p
             className="mt-7 max-w-sm font-sans text-sm leading-6 text-ink/52"
@@ -50,8 +50,8 @@ export function Invest() {
               delay: 0.14,
             }}
           >
-            Operator-led capital for teams making useful things before they look
-            obvious.
+            Operator-led backing for teams making something practical before it
+            looks obvious.
           </motion.p>
         </div>
 
@@ -66,15 +66,15 @@ export function Invest() {
           }}
         >
           <p className="mb-12 max-w-2xl font-serif text-xl leading-[1.62] text-ink/70 text-pretty md:mb-14 md:text-2xl md:leading-[1.58]">
-            We back seed-stage projects with capital, product judgment, and
-            experience shipping platforms that people return to. We care about
-            funding people working on problems with real purpose.
+            Seed-stage projects can reach out for capital, product judgment, and
+            experience shipping platforms people come back to. The strongest fit
+            is practical work with a clear reason to exist.
           </p>
 
           <div className="grid gap-6 border-l border-ink/15 pl-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
             <p className="max-w-md font-sans text-sm leading-6 text-ink/58">
-              Send a concise note with what you are building, why now, and what
-              you need from us.
+              Send a concise note with what you are building, why now, and where
+              help would matter.
             </p>
             <a
               href="mailto:projects@boringordinary.com"
