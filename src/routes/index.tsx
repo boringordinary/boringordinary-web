@@ -77,7 +77,7 @@ function Navbar() {
     <>
       <header
         ref={masthead}
-        className="relative isolate flex overflow-hidden bg-paper px-6 pt-7 pb-16 md:min-h-[92svh] md:px-12 md:pt-10 md:pb-20"
+        className="relative isolate flex overflow-hidden bg-paper px-6 pt-7 pb-16 md:px-12 md:pt-10 md:pb-16 xl:min-h-[86svh] xl:pb-20 2xl:min-h-[92svh]"
       >
         <div
           aria-hidden="true"
@@ -95,15 +95,12 @@ function Navbar() {
             <NavLinks />
           </div>
 
-          <div className="grid flex-1 gap-12 pt-14 md:grid-cols-[minmax(0,1fr)_minmax(16rem,24rem)] md:items-center md:pt-20 lg:gap-20">
-            <div className="max-w-5xl">
-              <h1 className="max-w-5xl font-serif text-4xl leading-[1] text-ink text-balance sm:text-6xl sm:leading-[0.96] md:text-7xl md:leading-[0.94] lg:text-8xl">
-                We build and back the useful, unfashionable work.
+          <div className="grid flex-1 gap-10 pt-12 sm:pt-16 md:pt-18 lg:pt-20 xl:grid-cols-[minmax(0,1fr)_minmax(16rem,24rem)] xl:items-center xl:gap-20">
+            <div className="max-w-6xl xl:max-w-5xl">
+              <h1 className="max-w-6xl font-serif text-4xl leading-[1.02] text-ink text-balance sm:text-5xl sm:leading-[0.98] md:text-6xl md:leading-[0.96] lg:text-7xl lg:leading-[0.94]">
+                We operate companies, invest early, and stay close to the work
+                that becomes infrastructure.
               </h1>
-              <p className="mt-8 max-w-2xl font-serif text-xl leading-[1.55] text-ink/64 text-pretty md:text-2xl md:leading-[1.5]">
-                We operate companies, invest early, and stay close to the
-                work that becomes infrastructure.
-              </p>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
                 <a

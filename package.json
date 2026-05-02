@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "doppler run --project boringordinary --config dev --no-fallback -- vite",
     "build": "vite build",
     "typecheck": "tsc -b",
     "preview": "vite preview",
