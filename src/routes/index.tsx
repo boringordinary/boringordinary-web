@@ -107,7 +107,7 @@ function Navbar() {
                   href="mailto:projects@boringordinary.com"
                   className="inline-flex min-h-12 items-center justify-center bg-ink px-5 py-3 font-sans text-sm font-semibold text-paper transition duration-300 hover:-translate-y-0.5 hover:bg-ink/90 active:translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
                 >
-                  Pitch a project
+                  Contact us
                 </a>
                 <button
                   type="button"
