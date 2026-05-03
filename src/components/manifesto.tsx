@@ -22,7 +22,7 @@ const paragraphs: ParagraphDef[] = [
   {
     segments: [
       {
-        text: "Since 2019, Boring+Ordinary has run digital platforms used by millions of people, focused on practical problems that should be easier than they are.",
+        text: "Since 2019, Boring+Ordinary has run digital platforms used by millions of people, focused on practical problems that the rest of the industry won't touch.",
       },
     ],
   },
@@ -62,7 +62,7 @@ const paragraphs: ParagraphDef[] = [
   {
     segments: [
       {
-        text: "\u201CMake it useful. Keep it human.\u201D",
+        text: "\u201CBe wise as serpents and innocent as doves.\u201D",
         type: "quote",
       },
     ],
