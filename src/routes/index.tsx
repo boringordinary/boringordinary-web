@@ -98,9 +98,7 @@ function Navbar() {
           <div className="grid flex-1 gap-10 pt-12 sm:pt-16 md:pt-18 lg:pt-20 xl:grid-cols-[minmax(0,1fr)_minmax(16rem,24rem)] xl:items-center xl:gap-20">
             <div className="max-w-6xl xl:max-w-5xl">
               <h1 className="max-w-6xl font-serif text-4xl leading-[1.02] text-ink text-balance sm:text-5xl sm:leading-[0.98] md:text-6xl md:leading-[0.96] lg:text-7xl lg:leading-[0.94]">
-                Operating companies and backing early teams building practical
-                products people rely on.
-              </h1>
+                Supporting companies the rest of the industry won't touch</h1>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
                 <a
