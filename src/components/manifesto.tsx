@@ -29,9 +29,9 @@ const paragraphs: ParagraphDef[] = [
   {
     segments: [
       {
-        text: "The work spans medtech, regtech, gaming, consumer products, and the areas closest to daily life: beauty, body, and mind. The problems that ",
+        text: "Our industries spans medtech, regtech, and consumer products, the areas closest to beauty, health, and soul. The problems that ",
       },
-      { text: "define everyday life", type: "underline" },
+      { text: "define everyday life but for some reason founders don't touch", type: "underline" },
       { text: "." },
     ],
   },
@@ -40,7 +40,7 @@ const paragraphs: ParagraphDef[] = [
       {
         text: "If you\u2019re building something rooted in ",
       },
-      { text: "freedom, community, and craft", type: "slide" },
+      { text: "freedom and innovation", type: "slide" },
       {
         text: "\u2014that is the kind of work worth a conversation.",
       },
@@ -54,9 +54,9 @@ const paragraphs: ParagraphDef[] = [
         type: "slide",
       },
       {
-        text: "the kind of people who never fit neatly in one lane. Boring where it counts, durable by default, and in service of ",
+        text: "the kind of people who never fit neatly in one lane. Boring where it counts, sustainable by default, and in service of ",
       },
-      { text: "real life.", type: "rainbow" },
+      { text: "your spirit.", type: "rainbow" },
     ],
   },
   {
